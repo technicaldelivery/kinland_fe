@@ -1,0 +1,143 @@
+html {
+  font-size: 1vw;
+  @include desktop { font-size: 1.222vw; }
+  @include laptop { font-size: 1.333vw; }
+  @include tablet { font-size: 1.888vw; }
+  @include phone { font-size: 20px; }
+  @include mini-phone { font-size: 18px; }
+}
+
+$ft-extra-large: 2.25rem;
+$ft-large: 1.5rem;
+$ft-medium: 1rem;
+$ft-small: 0.8rem;
+$ft-extra-large-lh: 1.1; // 20 * 1.25 = 25
+$ft-large-lh: 1.1; // 15 * 1.25 = 18.75
+$ft-medium-lh: 1.25; // 10 * 1.25 = 12.5
+$ft-small-lh: 1.25; // 7.5 * 1.25 = 9.375
+
+/* Size mixins to manage font styles */
+
+@mixin typography-extra-large() {
+  --line-height: #{$ft-extra-large-lh};
+  --fm: calc(1em * var(--line-height));
+  --fm-x2: calc(2em * var(--line-height));
+  --fm-three-quarters: calc(0.75em * var(--line-height));
+  --fm-half: calc(0.5em * var(--line-height));
+  --paragraph-space: calc(1rem * var(--line-height));
+  --paragraph-space-full: calc(1em * var(--line-height));
+  font-family: 'ABC Marist', serif;
+  font-size: $ft-extra-large;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--line-height);
+  font-variant-numeric: oldstyle-nums;
+  letter-spacing: 0.01em;
+  a, &a {
+    text-decoration: none;
+  }
+  @include phone-and-tablet {
+    --line-height: #{$ft-large-lh};
+    --fm: calc(1em * var(--line-height));
+    --fm-x2: calc(2em * var(--line-height));
+    --fm-three-quarters: calc(0.75em * var(--line-height));
+    --fm-half: calc(0.5em * var(--line-height));
+    --paragraph-space: calc(1rem * var(--line-height));
+    --paragraph-space-full: calc(1em * var(--line-height));
+    font-family: 'ABC Marist', serif;
+    font-size: $ft-large;
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--line-height);
+    font-variant-numeric: oldstyle-nums;
+    letter-spacing: 0.01em;
+    a, &a {
+      text-decoration: none;
+    }
+  }
+}
+
+@mixin typography-large() {
+  --line-height: #{$ft-large-lh};
+  --fm: calc(1em * var(--line-height));
+  --fm-x2: calc(2em * var(--line-height));
+  --fm-three-quarters: calc(0.75em * var(--line-height));
+  --fm-half: calc(0.5em * var(--line-height));
+  --paragraph-space: calc(1rem * var(--line-height));
+  --paragraph-space-full: calc(1em * var(--line-height));
+  font-family: 'ABC Marist', serif;
+  font-size: $ft-large;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--line-height);
+  font-variant-numeric: oldstyle-nums;
+  letter-spacing: 0.01em;
+  a, &a {
+    text-decoration: none;
+  }
+}
+
+@mixin typography-medium() {
+  --line-height: #{$ft-medium-lh};
+  --paragraph-space: calc(0.5em * var(--line-height));
+  --paragraph-space-full: calc(1em * var(--line-height));
+  --fm: calc(1em * var(--line-height));
+  --fm-medium: calc(1rem * var(--line-height));
+  --fm-x2: calc(2em * var(--line-height));
+  font-family: 'ABC Marist', serif;
+  font-size: $ft-medium;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--line-height);
+  text-transform: none;
+  font-variant-numeric: oldstyle-nums;
+  letter-spacing: 0.01em;
+}
+
+@mixin typography-small() {
+  --line-height: #{$ft-small-lh};
+  --paragraph-space: calc(0.5em * var(--line-height));
+  --paragraph-space-full: calc(1em * var(--line-height));
+  --fm: calc(1em * var(--line-height));
+  --fm-x2: calc(2em * var(--line-height));
+  font-family: 'ABC Marist', serif;
+  font-size: $ft-small;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--line-height);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-variant-numeric: oldstyle-nums;
+}
+
+body {
+  @include typography-small;
+  -webkit-font-smoothing: antialiased;
+  --line-height: #{$ft-small-lh};
+  --paragraph-space: calc(0.5em * var(--line-height));
+  --paragraph-space-full: calc(1em * var(--line-height));
+}
+
+// sizes:
+
+.ts-l, .headline, .gs-title-large { @include typography-large; }
+.ts-m { @include typography-medium; }
+.ts-s { @include typography-small; }
+
+// styles:
+
+.ts-italic, .italic { font-style: italic; }
+.ts-bold, h1, h2, h3, h4, h5, h6, .bold, strong { font-weight: 400; }
+.ts-underline, .underline { 
+  text-decoration-line: underline;		
+  text-decoration-color: inherit;
+  text-decoration-style: solid;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.175em;
+}
+.ts-tnum, .tabular-numbers, .button { font-feature-settings: "tnum"; }
+.small-caps {
+  font-feature-settings: "smcp" !important;
+  letter-spacing: 0.075em !important;
+}
+

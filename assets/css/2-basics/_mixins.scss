@@ -1,0 +1,88 @@
+//breakpoints
+$mini-phone-width: 500px;
+$phone-width: 768px;
+$tablet-width: 1024px;
+$laptop-width: 1700px;
+$desktop-width: 2000px;
+
+@mixin mini-phone {
+  @media (max-width: #{$mini-phone-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin phone {
+  @media (max-width: #{$phone-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$phone-width}) and (max-width: #{$tablet-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media (min-width: #{$tablet-width}) and (max-width: #{$laptop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$laptop-width}) {
+    @content;
+  }
+}
+
+@mixin phone-and-tablet {
+  @media (max-width: #{$tablet-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin laptop-and-desktop {
+  @media (min-width: #{$tablet-width}) {
+    @content;
+  }
+}
+
+@mixin tablet-and-laptop-and-desktop {
+  @media (min-width: #{$phone-width}) {
+    @content;
+  }
+}
+
+@mixin text-width {
+  @include desktop { max-width: var(--text-width-desktop); }
+  @include laptop { max-width: var(--text-width-laptop); }
+  @include tablet { max-width: var(--text-width-tablet); }
+  @include phone { max-width: var(--text-width-phone); }
+}
+
+@mixin gradient($startColor: rgba(0,0,0,1), $direction: 'to top') {
+  $scrimCoordinates: (
+    0: 1,
+    19: 0.738,
+    34: 0.541,
+    47: 0.382,
+    56.5: 0.278,
+    65: 0.194,
+    73: 0.126,
+    80.2: 0.075,
+    86.1: 0.042,
+    91: 0.021,
+    95.2: 0.008,
+    98.2: 0.002,
+    100: 0
+  );
+  $hue: hue($startColor);
+  $saturation: saturation($startColor);
+  $lightness: lightness($startColor);
+  $stops: ();
+  @each $colorStop, $alphaValue in $scrimCoordinates {
+    $stop: hsla($hue, $saturation, $lightness, $alphaValue) percentage(calc($colorStop / 100));
+    $stops: append($stops, $stop, comma);
+  }
+  background: linear-gradient(unquote($direction), $stops);
+}

@@ -1,0 +1,308 @@
+.page-enter-active, .page-leave-active {
+  transition: opacity .333s ease-in;
+}
+
+.page-enter, .page-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.fade-menu-enter-active, .fade-menu-leave-active {
+  transition: opacity .2s ease-in;
+}
+
+.fade-menu-enter, .fade-menu-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .333s ease-in;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+
+.fade-in-enter-active {
+  transition: opacity 0.666s ease;
+}
+.fade-in-enter {
+  opacity: 0;
+}
+
+
+
+.fade-slides-enter-active {
+  transition: transform .999s, opacity .333s .333s ease-in;
+  .right {
+    transition: opacity 0.333s 0.666s ease-in;
+  }
+}
+
+.fade-slides-leave-active {
+  transition: opacity .333s ease-out;
+}
+
+.fade-slides-enter {
+  .right {
+    opacity: 0;
+  }
+}
+
+.fade-slides-enter, .fade-slides-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.fade-information-enter-active {
+  transition: background-color 1.333s;
+  .holding-page-information-item, 
+  .holding-page-information-contact,
+  .holding-page-information-close {
+    &:nth-child(1) {
+      transition: opacity 0.333s 0.2s ease-in;
+    }
+    &:nth-child(2) {
+      transition: opacity 0.333s 0.4s ease-in;
+    }
+    &:nth-child(3) {
+      transition: opacity 0.333s 0.6s ease-in;
+    }
+    &:nth-child(4) {
+      transition: opacity 0.333s 0.8s ease-in;
+    }
+    &:nth-child(5) {
+      transition: opacity 0.333s 1.0s ease-in;
+    }
+  }
+}
+
+.fade-information-leave-active {
+  transition: background-color 0.333s;
+  .holding-page-information-item, 
+  .holding-page-information-contact,
+  .holding-page-information-close {
+    &:nth-child(5) {
+      transition: opacity 0.333s 0.0s ease-out;
+    }
+    &:nth-child(4) {
+      transition: opacity 0.333s 0.0s ease-out;
+    }
+    &:nth-child(3) {
+      transition: opacity 0.333s 0.0s ease-out;
+    }
+    &:nth-child(2) {
+      transition: opacity 0.333s 0.0s ease-out;
+    }
+    &:nth-child(1) {
+      transition: opacity 0.333s 0.0s ease-out;
+    }
+  }
+}
+
+.fade-information-enter, .fade-information-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  background-color: rgba(255,255,255,1);
+  .holding-page-information-item, .holding-page-information-contact, .holding-page-information-close  {
+    opacity: 0;
+  }
+}
+
+.fade-information-enter-active {
+  animation: fade-information 1.333s;
+}
+.fade-information-leave-active {
+  animation: fade-information-leave 0.333s reverse;
+}
+
+@keyframes fade-information {
+  0% {
+    opacity: 0;
+  }
+  21% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-information-leave {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+// .fade-information-enter-active {
+//   transition: background-color 1.583s;
+//   .holding-page-information-item, 
+//   .holding-page-information-contact,
+//   .holding-page-information-close {
+//     &:nth-child(1) {
+//       transition: opacity 0.333s 0.25s ease-in;
+//     }
+//     &:nth-child(2) {
+//       transition: opacity 0.333s 0.5s ease-in;
+//     }
+//     &:nth-child(3) {
+//       transition: opacity 0.333s 0.75s ease-in;
+//     }
+//     &:nth-child(4) {
+//       transition: opacity 0.333s 1.0s ease-in;
+//     }
+//     &:nth-child(5) {
+//       transition: opacity 0.333s 1.25s ease-in;
+//     }
+//   }
+// }
+
+// .fade-information-leave-active {
+//   transition: background-color 1.583s;
+//   .holding-page-information-item, 
+//   .holding-page-information-contact,
+//   .holding-page-information-close {
+//     &:nth-child(5) {
+//       transition: opacity 0.333s 0.0s ease-out;
+//     }
+//     &:nth-child(4) {
+//       transition: opacity 0.333s 0.25s ease-out;
+//     }
+//     &:nth-child(3) {
+//       transition: opacity 0.333s 0.5s ease-out;
+//     }
+//     &:nth-child(2) {
+//       transition: opacity 0.333s 0.75s ease-out;
+//     }
+//     &:nth-child(1) {
+//       transition: opacity 0.333s 1.0s ease-out;
+//     }
+//   }
+// }
+
+// .fade-information-enter, .fade-information-leave-to /* .fade-leave-active below version 2.1.8 */ {
+//   background-color: rgba(255,255,255,1);
+//   .holding-page-information-item, .holding-page-information-contact, .holding-page-information-close  {
+//     opacity: 0;
+//   }
+// }
+
+// .fade-information-enter-active {
+//   animation: fade-information 1.583s;
+// }
+// .fade-information-leave-active {
+//   animation: fade-information 1.583s reverse;
+// }
+
+// @keyframes fade-information {
+//   0% {
+//     opacity: 0;
+//   }
+//   21% {
+//     opacity: 1;
+//   }
+//   100% {
+//     opacity: 1;
+//   }
+// }
+
+
+
+.fade-splash-enter-active {
+  transition: opacity .334s .0s ease-in, transform 0.667s ease-in;
+  .splash {
+    transition: opacity .333s .334s ease-in;
+  }
+}
+
+.fade-splash-leave-active {
+  transition: opacity .334s .333s ease-out, transform 0.667s ease-out;
+  .splash {
+    transition: opacity .333s .0s ease-out;
+  }
+}
+
+.fade-splash-enter, .fade-splash-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  .splash  {
+    opacity: 0;
+  }
+}
+
+// .fade-splash-enter-active {
+//   animation: fade-splash .666s;
+// }
+// .fade-splash-leave-active {
+//   animation: fade-splash .666s reverse;
+// }
+
+// @keyframes fade-splash {
+//   0% {
+//     opacity: 0;
+//   }
+//   50% {
+//     opacity: 1;
+//   }
+//   100% {
+//     opacity: 1;
+//   }
+// }
+
+
+
+
+.swipe-enter-active, .swipe-enter-to {
+  transition: color 0.25s, background-color 0.25s, clip-path 0.5s !important;
+  position: absolute;
+  top: 0;
+  z-index: 999;
+  clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.swipe-enter {
+  position: absolute;
+  top: 0;
+  z-index: 999;
+  clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+}
+
+.swipe-backward-enter-active, .swipe-backward-enter-to {
+  transition: color 0.25s, background-color 0.25s, clip-path 0.5s;
+  &.animate {
+    transition: color 0.25s, background-color 0.25s, clip-path 0.5s !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    min-height: 100%;
+  }
+}
+
+.swipe-backward-enter {
+  transition: color 0.25s, background-color 0.25s, clip-path 0.5s;
+  &.animate {
+    clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    min-height: 100%;
+  }
+}
+
+.swipe-backward-leave, .swipe-backward-leave-active {
+  color: pink !important;
+}
+
+// .invert {
+//   img {
+//     filter: invert(1);
+//   }
+// }
+
+
+
+
+
