@@ -8,7 +8,7 @@
       />
       <EditorialArticlePageBuilder
         v-if="item"
-        :blocks="item.items"
+        :blocks="item.articleContent"
         :title="item.title"
         :colorScheme="item.colorScheme"
         :nextArticle="item.nextArticle"

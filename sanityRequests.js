@@ -98,7 +98,7 @@ const editorialArticle = `{
     ...,
     "metadata": asset->metadata
   },
-  "items": items[] {
+  "articleContent": articleContent[] {
     ...,
     "media": media[] {
       _type == 'image' => {
@@ -117,12 +117,12 @@ const editorialArticle = `{
       },
     }
   },
-  "nextArticle": *[_type == "editorialArticle" && date < ^.date && !(_id in path('drafts.**'))] | order(date desc)[0]{
+  "nextArticle": *[_type == "editorialArticles" && date < ^.date && !(_id in path('drafts.**'))] | order(date desc)[0]{
     _createdAt,
     title,
     'slug': slug.current,
   },
-  "latestArticle": *[_type == "editorialArticle" && !(_id in path('drafts.**'))] | order(date desc)[0]{
+  "latestArticle": *[_type == "editorialArticles" && !(_id in path('drafts.**'))] | order(date desc)[0]{
     _createdAt,
     title,
     'slug': slug.current,
@@ -202,9 +202,9 @@ const page = `{
 
 // REQUESTS
 
-export const editorialArticlesPageRequest = `{ "editorialArticles": *[_type == "editorialArticle" && !(_id in path('drafts.**'))] | order(date desc) ${ editorialArticles } }`
-export const editorialArticlePageRequest = `*[_type == "editorialArticle" && slug.current == $editorialArticle && !(_id in path('drafts.**'))][0] ${ editorialArticle }`
-export const editorialArticlePagesRequest = `{ "editorialArticles": *[_type == "editorialArticle" && !(_id in path('drafts.**'))] ${ editorialArticle } }`
+export const editorialArticlesPageRequest = `{ "editorialArticles": *[_type == "editorialArticles" && !(_id in path('drafts.**'))] | order(date desc) ${ editorialArticles } }`
+export const editorialArticlePageRequest = `*[_type == "editorialArticles" && slug.current == $editorialArticle && !(_id in path('drafts.**'))][0] ${ editorialArticle }`
+export const editorialArticlePagesRequest = `{ "editorialArticles": *[_type == "editorialArticles" && !(_id in path('drafts.**'))] ${ editorialArticle } }`
 
 export const colorsRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0].defaultColorScheme-> {
   ...,
