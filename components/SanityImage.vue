@@ -22,10 +22,9 @@
 </template>
 
 <script>
-import sanity from "../sanity"
+import { createSanityClient } from "~/sanity.js";
 import imageUrlBuilder from "@sanity/image-url"
 import colourGen from "~/mixins/colourGen.js"
-const builder = imageUrlBuilder(sanity)
 
 export default {
   mixins: [ colourGen ],
@@ -72,9 +71,13 @@ export default {
   },
   computed: {
     imageUrl() {
+      const sanityClient = createSanityClient(this.$config);
+      const builder = imageUrlBuilder(sanityClient);
       return builder.image(this.image).width(this.width)
     },
     srcset() {
+      const sanityClient = createSanityClient(this.$config);
+      const builder = imageUrlBuilder(sanityClient);
       if (this.fullscreen && this.viewportPortrait) {
         return builder.image(this.image).width(this.aspectRatioAdjust(300)) + "&auto=format&q=90 300w, " +
           builder.image(this.image).width(this.aspectRatioAdjust(400)) + "&auto=format&q=90 400w, " +
@@ -116,6 +119,8 @@ export default {
       }
     },
     loadingImageUrl() {
+      const sanityClient = createSanityClient(this.$config);
+      const builder = imageUrlBuilder(sanityClient);
       return builder.image(this.image).width(6).blur(10)
     },
     hotspot() {

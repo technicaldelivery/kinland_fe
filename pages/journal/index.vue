@@ -17,14 +17,15 @@
 </template>
 
 <script>
-import sanity from "~/sanity.js";
+import { createSanityClient } from "~/sanity.js";
 import { pageRequest } from "~/sanityRequests.js";
 import { makeMeta } from "~/utils/makeMeta.js";
 
 export default {
-  async asyncData({ store }) {
-    if (!store.state.sanity.editorialArticles) await store.dispatch('sanity/EDITORIALARTICLES_CALL');
-    return await sanity.fetch(pageRequest, { page: 'journal' }).then(page => ({ page }));
+  async asyncData({ store, $config }) {
+    const sanityClient = createSanityClient($config);
+    if (!store.state.sanity.editorialArticles) await store.dispatch('sanity/EDITORIALARTICLES_CALL', sanityClient);
+    return await sanityClient.fetch(pageRequest, { page: 'journal' }).then(page => ({ page }));
   },
   head() {
     const { title, description, image } = this.page.seoMeta || {};

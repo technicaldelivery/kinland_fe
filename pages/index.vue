@@ -10,13 +10,14 @@
 </template>
 
 <script>
-import sanity from "~/sanity.js";
+import { createSanityClient } from "~/sanity.js";
 import { holdingPageRequest } from "~/sanityRequests.js";
 import { makeMeta } from "~/utils/makeMeta.js";
 import { mapMutations } from 'vuex';
 export default {
-  asyncData() {
-    return sanity.fetch(holdingPageRequest).then(holdingPage => ({ holdingPage }));
+  asyncData({ $config }) {
+    const sanityClient = createSanityClient($config);
+    return sanityClient.fetch(holdingPageRequest).then(holdingPage => ({ holdingPage }));
   },
   data() {
     return {

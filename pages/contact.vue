@@ -15,13 +15,14 @@
 </template>
 
 <script>
-import sanity from "~/sanity.js";
+import { createSanityClient } from "~/sanity.js";
 import { pageRequest } from "~/sanityRequests.js";
 import { makeMeta } from "~/utils/makeMeta.js";
 
 export default {
-  async asyncData() {
-    return await sanity.fetch(pageRequest, { page: 'contact' }).then(page => ({ page }));
+  async asyncData({ $config }) {
+    const sanityClient = createSanityClient($config);
+    return await sanityClient.fetch(pageRequest, { page: 'contact' }).then(page => ({ page }));
   },
   head() {
     const { title, description, image } = this.page.seoMeta || {};

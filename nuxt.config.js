@@ -1,5 +1,5 @@
 import webpack from 'webpack'
-import sanity from "./sanity.js";
+import { createSanityClient } from "./sanity.js";
 import { 
   editorialArticlePagesRequest,
   projectPagesRequest,
@@ -11,15 +11,16 @@ import { makeMeta } from "./utils/makeMeta.js";
 
 const dynamicRoutes = async() => {
   // return []
-  const { navigation } = await sanity.fetch(navigationRequest);
-  const pageNotFound = await sanity.fetch(pageNotFoundRequest);
-  const seo = await sanity.fetch(seoRequest);
+  const sanityClient = createSanityClient(context.$config);
+  const { navigation } = await sanityClient.fetch(navigationRequest);
+  const pageNotFound = await sanityClient.fetch(pageNotFoundRequest);
+  const seoMeta = await sanityClient.fetch(seoRequest);
   const payload = {
     navigation,
     pageNotFound,
-    seo,
+    seoMeta,
   };
-  const resForEditorialArticles = await sanity.fetch(editorialArticlePagesRequest);
+  const resForEditorialArticles = await sanityClient.fetch(editorialArticlePagesRequest);
   const routesForEditorialArticles = resForEditorialArticles.editorialArticles.map(editorialArticle => {
     return {
       route: `/journal/${ editorialArticle.slug }`,
@@ -29,7 +30,7 @@ const dynamicRoutes = async() => {
       }
     }
   });
-  const resForPortfolio = await sanity.fetch(projectPagesRequest);
+  const resForPortfolio = await sanityClient.fetch(projectPagesRequest);
   const routesForPortfolio = resForPortfolio.projects.map(project => {
     return {
       route: `/portfolio/${ project.slug }`,
@@ -46,15 +47,6 @@ const dynamicRoutes = async() => {
 }
 
 export default async () => {
-  const seo = await sanity.fetch(seoRequest);
-  let title = 'Kinland';
-  let description = 'Description for Kinland.';
-  let image = '';
-  if (seo) {
-    if (seo.title) title = seo.title;
-    if (seo.description) description = seo.description;
-    if (seo.image) image = seo.image;
-  }
   return {
     target: 'static',
     components: true,
@@ -74,12 +66,7 @@ export default async () => {
     ** Headers of the page
     */
     head: {
-      ...makeMeta({
-        title,
-        description,
-        image,
-        seo
-      }),
+      ...makeMeta({ title: 'Kinland' }),
       link: [
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon.ico' },
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -236,6 +223,10 @@ export default async () => {
     generate: {
       fallback: true,
       routes: dynamicRoutes
+    },
+    publicRuntimeConfig: {
+      sanityProjectId: process.env.SANITY_PROJECT_ID,
+      sanityDataset: process.env.SANITY_DATASET,
     }
   }
 }

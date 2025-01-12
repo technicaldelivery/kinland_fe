@@ -99,14 +99,15 @@
 </template>
 
 <script>
-import sanity from "~/sanity.js";
+import { createSanityClient } from "~/sanity.js";
 import { projectPageRequest } from "~/sanityRequests.js";
 import { makeMeta } from "~/utils/makeMeta.js";
 
 export default {
-  asyncData({ params, payload }) {
+  asyncData({ params, payload, $config }) {
+    const sanityClient = createSanityClient($config);
     if (payload) return { item: payload.item }
-    else return sanity.fetch(projectPageRequest, params).then(data => ({ item: data }))
+    else return sanityClient.fetch(projectPageRequest, params).then(data => ({ item: data }))
   },
   head() {
     if (this.item) {
