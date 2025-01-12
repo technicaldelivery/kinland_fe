@@ -32,8 +32,8 @@ export default {
   head() {
     if (this.item) {
       const date = this.item._updatedAt;
-      const { title, description, image } = this.item.seo || {};
-      return makeMeta({ title, description, image, date, fallback: this.$store.state.sanity.seo });
+      const { title, description, image } = this.item.seoMeta || {};
+      return makeMeta({ title, description, image, date, fallback: this.$store.state.sanity.seoMeta });
     }
   },
   methods: {
