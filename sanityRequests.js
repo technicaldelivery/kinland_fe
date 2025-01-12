@@ -148,7 +148,7 @@ const project = `{
     title,
     "slug": slug.current
   },
-  "items": items[] {
+  "slides": slides[] {
     ...,
     "media": media[] {
       _type == 'image' => {

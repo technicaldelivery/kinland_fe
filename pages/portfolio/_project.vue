@@ -125,8 +125,8 @@ export default {
   },
   computed: {
     slides() {
-      if (this.item.items && this.item.items.length) {
-        return this.item.items;
+      if (this.item.slides && this.item.slides.length) {
+        return this.item.slides;
       } else {
         return null;
       }
