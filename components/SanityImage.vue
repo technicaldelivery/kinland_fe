@@ -16,7 +16,7 @@
       class="lazyload lazypreload"
       :style="{ objectFit, objectPosition }"
       border="0"
-      :alt="alt"
+      :alt="alternativeText"
     />
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
       type: Object,
       required: true
     },
-    alt: {
+    alternativeText: {
       type: String,
       default: "Missing caption"
     },
