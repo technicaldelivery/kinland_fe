@@ -127,7 +127,7 @@ const editorialArticle = `{
     title,
     'slug': slug.current,
   },
-  "seo": {
+  "seoMeta": {
     "title": select(
       defined(title) => title
     ),
@@ -167,7 +167,7 @@ const project = `{
       },
     }
   },
-  "seo": {
+  "seoMeta": {
     "title": select(
       defined(title) => title
     ),
@@ -190,13 +190,13 @@ const page = `{
       "metadata": asset->metadata
     }
   },
-  "seo": {
-    ...seo,
+  "seoMeta": {
+    ...seoMeta,
     "title": select(
-      defined(seo.title) => seo.title,
+      defined(seoMeta.title) => seoMeta.title,
       defined(title) => title
     ),
-    "image": seo.image.asset->url
+    "image": seoMeta.image.asset->url
   }
 }`
 
@@ -235,7 +235,7 @@ export const pageNotFoundRequest = `*[_id == "settings" && !(_id in path('drafts
   }
 }`
 
-export const seoRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0].seo {
+export const seoRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0].seoMeta {
   ...,
   "image": image.asset->url
 }`

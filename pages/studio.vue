@@ -22,8 +22,8 @@ export default {
     return await sanity.fetch(pageRequest, { page: 'studio' }).then(page => ({ page }));
   },
   head() {
-    const { title, description, image } = this.page.seo || {};
-    return makeMeta({ title, description, image, fallback: this.$store.state.sanity.seo });
+    const { title, description, image } = this.page.seoMeta || {};
+    return makeMeta({ title, description, image, fallback: this.$store.state.sanity.seoMeta });
   },
   created() {
     console.log(this.page);
