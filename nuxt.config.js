@@ -11,7 +11,10 @@ import { makeMeta } from "./utils/makeMeta.js";
 
 const dynamicRoutes = async() => {
   // return []
-  const sanityClient = createSanityClient(context.$config);
+  const sanityClient = createSanityClient({
+    sanityProjectId: process.env.SANITY_PROJECT_ID,
+    sanityDataset: process.env.SANITY_DATASET
+  });
   const { navigation } = await sanityClient.fetch(navigationRequest);
   const pageNotFound = await sanityClient.fetch(pageNotFoundRequest);
   const seoMeta = await sanityClient.fetch(seoRequest);
