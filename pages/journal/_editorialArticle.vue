@@ -52,7 +52,7 @@ export default {
 .editorial-article {
   // margin-top: calc(-3 * var(--fm));
   .editorial-article-title-card-wrapper {
-    padding-top: calc(3 * var(--fm));
+    padding-top: calc(4 * var(--fm));
     background-color: var(--background-color, rgb(225, 225, 225));
     @include laptop-and-desktop {
       height: 100vh;
