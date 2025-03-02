@@ -3,7 +3,7 @@
     <ClientOnly>
       <PreviewBanner v-if="$nuxt.isPreview" />
     </ClientOnly>
-    <Header />
+    <Navigation />
     <Nuxt />
     <CookieBanner />
   </div>

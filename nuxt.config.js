@@ -220,7 +220,15 @@ export default async () => {
       /*
       ** You can extend webpack config here
       */
-      extend(config, ctx) {
+      extend(config, { isDev, isClient }) {
+        // Add babel-loader for plyr
+        config.module.rules.push({
+          test: /plyr\.min\.js$/,
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        })
       }
     },
     generate: {

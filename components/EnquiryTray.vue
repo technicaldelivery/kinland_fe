@@ -1,74 +1,73 @@
 <template>
-  <div class="page">
-    <div class="contact">
-      <!-- Left Column -->
-      <div class="contact__info">
-        <h1 class="contact__title">Contact Us</h1>
-        <p class="contact__description">
-          Have a project in mind? Get in touch to discuss your requirements. Our team specializes in bespoke design consultancy and development management for residential properties across London.
-        </p>
-
-        <div class="contact__section">
-          <h2 class="contact__section-title">Office Address</h2>
-          <p class="contact__address">Nexus House DA14 5DA</p>
+  <div>
+    <transition name="fade">
+      <div v-if="isOpen" class="enquiry-tray__overlay" @click="$emit('close')"></div>
+    </transition>
+    <transition name="slide">
+      <div v-if="isOpen" class="enquiry-tray__content">
+        <button class="enquiry-tray__close" @click="$emit('close')">&times;</button>
+        
+        <div class="enquiry-tray__header">
+          <h2 class="enquiry-tray__title">Make an Enquiry</h2>
+          <p class="enquiry-tray__description">
+            Have a project in mind? Get in touch to discuss your requirements. Our team specializes in bespoke design consultancy and development management for residential properties across London.
+          </p>
         </div>
 
-        <div class="contact__section">
-          <h2 class="contact__section-title">Social</h2>
-          <div class="contact__social">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="contact__social-link">Instagram</a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="contact__social-link">LinkedIn</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Column -->
-      <div class="contact__form-container">
-        <form class="contact__form" @submit.prevent="handleSubmit">
-          <div class="contact__form-group">
+        <form class="enquiry-tray__form" @submit.prevent="handleSubmit">
+          <div class="enquiry-tray__form-group">
             <input 
               type="text" 
               v-model="form.firstName"
               placeholder="First Name"
               required
-              class="contact__input"
+              class="enquiry-tray__input"
             />
           </div>
 
-          <div class="contact__form-group">
+          <div class="enquiry-tray__form-group">
             <input 
               type="text" 
               v-model="form.lastName"
               placeholder="Last Name"
               required
-              class="contact__input"
+              class="enquiry-tray__input"
             />
           </div>
 
-          <div class="contact__form-group">
+          <div class="enquiry-tray__form-group">
             <input 
               type="email" 
               v-model="form.email"
               placeholder="Email"
               required
-              class="contact__input"
+              class="enquiry-tray__input"
             />
           </div>
 
-          <div class="contact__form-group">
+          <div class="enquiry-tray__form-group">
             <input 
               type="tel" 
               v-model="form.phone"
               placeholder="Phone"
-              class="contact__input"
+              class="enquiry-tray__input"
             />
           </div>
 
-          <div class="contact__form-group">
+          <div class="enquiry-tray__form-group">
+            <textarea 
+              v-model="form.message"
+              placeholder="Message"
+              required
+              class="enquiry-tray__input enquiry-tray__textarea"
+            ></textarea>
+          </div>
+
+          <div class="enquiry-tray__form-group">
             <select 
               v-model="form.enquiryType"
               required
-              class="contact__input contact__select"
+              class="enquiry-tray__input enquiry-tray__select"
             >
               <option value="" disabled selected>Enquiry Type</option>
               <option value="project">Project Enquiry</option>
@@ -77,17 +76,10 @@
             </select>
           </div>
 
-          <div class="contact__form-group">
-            <textarea 
-              v-model="form.message"
-              placeholder="Message"
-              required
-              class="contact__input contact__textarea"
-            ></textarea>
-          </div>
+          
 
-          <div class="contact__form-group contact__consent">
-            <label class="contact__checkbox">
+          <div class="enquiry-tray__form-group enquiry-tray__consent">
+            <label class="enquiry-tray__checkbox">
               <input 
                 type="checkbox" 
                 v-model="form.consent"
@@ -97,23 +89,25 @@
             </label>
           </div>
 
-          <button type="submit" class="contact__submit">Send Enquiry</button>
+          <button type="submit" class="enquiry-tray__submit">Send Enquiry</button>
         </form>
       </div>
-    </div>
-    <Footer />
+    </transition>
   </div>
 </template>
 
 <script>
-import { createSanityClient } from "~/sanity.js";
-import { pageRequest } from "~/sanityRequests.js";
-import { makeMeta } from "~/utils/makeMeta.js";
-import Footer from '~/components/Footer.vue';
-
 export default {
-  components: {
-    Footer
+  name: 'EnquiryTray',
+  props: {
+    isOpen: {
+      type: Boolean,
+      required: true
+    },
+    projectContext: {
+      type: Object,
+      default: null
+    }
   },
   data() {
     return {
@@ -128,19 +122,25 @@ export default {
       }
     }
   },
-  async asyncData({ $config }) {
-    const sanityClient = createSanityClient($config);
-    return await sanityClient.fetch(pageRequest, { page: 'contact' }).then(page => ({ page }));
-  },
-  head() {
-    const { title, description, image } = this.page.seoMeta || {};
-    return makeMeta({ title, description, image, fallback: this.$store.state.sanity.seoMeta });
+  watch: {
+    isOpen(newVal) {
+      if (newVal) {
+        document.body.style.overflow = 'hidden';
+        if (this.projectContext) {
+          this.form.message = `I'm interested in the ${this.projectContext.title} project.`;
+          this.form.enquiryType = 'project';
+        }
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
   },
   methods: {
     async handleSubmit() {
       try {
         // TODO: Implement form submission logic
         console.log('Form submitted:', this.form);
+        this.$emit('close');
         // Reset form
         this.form = {
           firstName: '',
@@ -155,73 +155,79 @@ export default {
         console.error('Error submitting form:', error);
       }
     }
+  },
+  beforeDestroy() {
+    document.body.style.overflow = '';
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.page {
-  background: #B8D6EC;
-  min-height: 100vh;
-}
-
-.contact {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  padding: 6rem 1rem 2rem;
-  gap: 1rem;
-  margin: 0 auto;
-
-  &__info {
-    padding-top: 2rem;
+.enquiry-tray {
+  &__overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
   }
 
-  &__title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    font-weight: normal;
+  &__content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    background: #B8D6EC;
+    padding: 2rem;
+    overflow-y: auto;
+    z-index: 1000;
   }
 
-  &__description {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 4rem;
-  }
-
-  &__section {
-    margin-bottom: 2rem;
-  }
-
-  &__section-title {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 1rem;
-    color: rgba(0, 0, 0, 0.5);
-  }
-
-  &__address {
-    font-size: 1rem;
-  }
-
-  &__social {
-    display: flex;
-    gap: 2rem;
-  }
-
-  &__social-link {
-    color: inherit;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: 0.875rem;
-    letter-spacing: 0.05em;
+  &__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
 
     &:hover {
-      opacity: 0.6;
+      opacity: 1;
     }
   }
 
-  &__form-container {
+  &__header {
+    margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: normal;
+    font-family: 'ABC Marist', serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  &__description {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    opacity: 0.8;
+    font-family: 'ABC Marist', serif;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0.01em;
   }
 
   &__form {
@@ -237,8 +243,8 @@ export default {
   &__input {
     width: 100%;
     padding: 0.625rem;
-    background: transparent;
-    border: 1px solid rgba(0, 0, 0);
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     font-size: 0.8125rem;
     transition: border-color 0.3s ease;
     font-family: 'ABC Marist', serif;
@@ -318,26 +324,30 @@ export default {
       opacity: 0.8;
     }
   }
-
-  .credits {
-    font-size: 0.75em;
-    transform: translateY(0.25em);
-    p {
-      margin: 0 calc(0.5 * var(--fm));
-    }
-  }
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 4rem 1rem 1rem;
-
-    &__form-container {
-    }
-
-    &__description {
-      max-width: none;
-    }
-  }
 }
-</style>
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(100%);
+}
+
+.slide-enter-to,
+.slide-leave-from {
+  transform: translateX(0);
+}
+</style> 
