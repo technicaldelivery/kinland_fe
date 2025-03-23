@@ -71,9 +71,9 @@
               class="contact__input contact__select"
             >
               <option value="" disabled selected>Enquiry Type</option>
-              <option value="project">Project Enquiry</option>
-              <option value="general">General Enquiry</option>
-              <option value="collaboration">Collaboration</option>
+              <option value="Project">Project Enquiry</option>
+              <option value="General">General Enquiry</option>
+              <option value="Collaboration">Collaboration</option>
             </select>
           </div>
 
