@@ -141,6 +141,14 @@ export default {
       try {
         // TODO: Implement form submission logic
         console.log('Form submitted:', this.form);
+
+        await fetch('/.netlify/functions/submission', {
+          method: 'POST',
+          body: JSON.stringify(this.form),
+        }).then((data) => {
+          console.log('Form submission response:', data);
+        });
+
         // Reset form
         this.form = {
           firstName: '',
