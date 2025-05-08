@@ -70,9 +70,9 @@
               class="enquiry-tray__input enquiry-tray__select"
             >
               <option value="" disabled selected>Enquiry Type</option>
-              <option value="project">Project Enquiry</option>
-              <option value="general">General Enquiry</option>
-              <option value="collaboration">Collaboration</option>
+              <option value="Project">Project Enquiry</option>
+              <option value="General">General Enquiry</option>
+              <option value="Collaboration">Collaboration</option>
             </select>
           </div>
 
@@ -140,7 +140,16 @@ export default {
       try {
         // TODO: Implement form submission logic
         console.log('Form submitted:', this.form);
+
+        await fetch('/.netlify/functions/submission', {
+          method: 'POST',
+          body: JSON.stringify(this.form),
+        }).then((data) => {
+          console.log('Form submission response:', data);
+        });
+
         this.$emit('close');
+
         // Reset form
         this.form = {
           firstName: '',

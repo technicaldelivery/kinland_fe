@@ -84,3 +84,6 @@ dist
 # sw.*
 
 .DS_Store
+
+# Local Netlify folder
+.netlify
