@@ -10,8 +10,8 @@
     "start": "nuxt start",
     "generate:staging": "export $(cat .env | xargs) && nuxt generate",
     "generate:production": "export $(cat .env.production | xargs) && nuxt generate",
-    "deploy:staging": "npm run generate:staging && netlify deploy --site thisiskinland-staging --prod",
-    "deploy:production": "npm run generate:production && netlify deploy --site thisiskinland-main --prod"
+    "deploy:staging": "npm run generate:staging && netlify deploy --site 7737b812-bda0-40a3-9a1c-47738647fc9f --prod",
+    "deploy:production": "npm run generate:production && netlify deploy --site b651ace2-7d3b-4525-915b-6860e8a1b8a4 --prod"
   },
   "dependencies": {
     "@gtm-support/vue2-gtm": "^2.0.0",
