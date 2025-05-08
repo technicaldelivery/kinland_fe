@@ -26,6 +26,7 @@ export default {
 <style lang="scss" scoped>
 .page-header {
   padding: 4rem 0 1rem;
+  max-width: 750px;
 
   &__content {
     margin: calc(4 * var(--fm)) var(--fm) calc(2 * var(--fm)) var(--fm);
