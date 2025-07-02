@@ -16,10 +16,23 @@
         @click="toggleMenu"
         :aria-label="isMenuOpen ? 'Close Menu' : 'Open Menu'"
       >
-        <span class="navigation__button-text">{{ isMenuOpen ? 'Close' : 'Menu' }}</span>
+        <span v-if="!isMobile" class="navigation__button-text">{{ isMenuOpen ? 'Close' : 'Menu' }}</span>
+        <span v-else class="navigation__button-icon" aria-hidden="true">
+          <svg v-if="!isMenuOpen" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h10"/>
+          </svg>
+          <svg v-else class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+          </svg>
+        </span>
       </button>
       <nuxt-link to="/contact" class="navigation__button navigation__button--enquire">
-        <span class="navigation__button-text">Enquire Now</span>
+        <span v-if="!isMobile" class="navigation__button-text">Enquire Now</span>
+        <span v-else class="navigation__button-icon" aria-hidden="true">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16v-5.5A3.5 3.5 0 0 0 7.5 7m3.5 9H4v-5.5A3.5 3.5 0 0 1 7.5 7m3.5 9v4M7.5 7H14m0 0V4h2.5M14 7v3m-3.5 6H20v-6a3 3 0 0 0-3-3m-2 9v4m-8-6.5h1"/>
+          </svg>
+        </span>
       </nuxt-link>
     </div>
 
@@ -85,7 +98,8 @@ export default {
   data() {
     return {
       isMenuOpen: false,
-      email: ''
+      email: '',
+      isMobile: false
     }
   },
 
@@ -114,11 +128,20 @@ export default {
       // Implement newsletter subscription logic here
       console.log('Subscribe:', this.email)
       this.email = ''
+    },
+    checkIsMobile() {
+      this.isMobile = window.matchMedia('(max-width: 768px)').matches
     }
   },
 
   beforeDestroy() {
     document.body.style.overflow = ''
+  },
+
+  mounted() {
+    this.checkIsMobile()
+    this.mediaQuery = window.matchMedia('(max-width: 768px)')
+    this.mediaQuery.addEventListener('change', this.checkIsMobile)
   }
 }
 </script>
@@ -130,11 +153,12 @@ export default {
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 1rem;
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   transition: all 0.3s ease;
+  height: 79px;
 
   &--transparent {
     background: transparent;
@@ -165,17 +189,21 @@ export default {
     display: flex;
     gap: 1rem;
     z-index: 1001;
-    font-size: 0.7rem;
+    font-size: 12px;
+    padding-left: 1rem;
   }
 
   &__button {
     background: none;
     border: 1px solid currentColor;
-    padding: 0.5rem 1rem;
+    padding: 5px 15px;
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     transition: all 0.3s ease;
+    height: 39px;
+    display: flex;
+    align-items: center;
 
     &:hover {
       opacity: 0.8;
@@ -191,6 +219,12 @@ export default {
         color: black;
         border-color: white;
       }
+    }
+
+    &-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
@@ -208,7 +242,8 @@ export default {
   &__overlay-content {
     max-width: 100%;
     margin: 0;
-    padding: 6rem 1rem 2rem;
+    padding: 5.2rem 1rem 2rem;
+    overflow: scroll;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -222,12 +257,22 @@ export default {
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     margin: 2rem 0;
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+      flex-wrap: wrap;
+
+      & > a {
+        text-align: center;
+        flex-grow: 1;
+	      width: 25%;
+      }
+    }
   }
 
   &__link {
     color: white;
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 18px;
     transition: opacity 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -324,10 +369,10 @@ export default {
   }
 
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: 5px 15px;
 
     &__overlay-content {
-      padding: 5rem 1rem 1rem;
+      padding: 4.5rem 1rem 1rem;
     }
 
     &__links {
