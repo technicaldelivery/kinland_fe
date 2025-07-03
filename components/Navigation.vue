@@ -2,7 +2,9 @@
   <nav :class="[
     'navigation',
     { 'navigation--transparent': isTransparent },
-    { 'navigation--white': isWhite }
+    { 'navigation--white': isWhite },
+    { 'navigation--scrolled': this.isScrolled },
+    { 'navigation--visible': this.showNav }
   ]">
     <!-- Logo -->
     <nuxt-link to="/" class="navigation__logo">
@@ -18,10 +20,10 @@
       >
         <span v-if="!isMobile" class="navigation__button-text">{{ isMenuOpen ? 'Close' : 'Menu' }}</span>
         <span v-else class="navigation__button-icon" aria-hidden="true">
-          <svg v-if="!isMenuOpen" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <svg v-if="!isMenuOpen" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h10"/>
           </svg>
-          <svg v-else class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <svg v-else style="padding: 2px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
           </svg>
         </span>
@@ -29,7 +31,7 @@
       <nuxt-link to="/contact" class="navigation__button navigation__button--enquire">
         <span v-if="!isMobile" class="navigation__button-text">Enquire Now</span>
         <span v-else class="navigation__button-icon" aria-hidden="true">
-          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16v-5.5A3.5 3.5 0 0 0 7.5 7m3.5 9H4v-5.5A3.5 3.5 0 0 1 7.5 7m3.5 9v4M7.5 7H14m0 0V4h2.5M14 7v3m-3.5 6H20v-6a3 3 0 0 0-3-3m-2 9v4m-8-6.5h1"/>
           </svg>
         </span>
@@ -99,7 +101,9 @@ export default {
     return {
       isMenuOpen: false,
       email: '',
-      isMobile: false
+      isMobile: false,
+      isScrolled: false,
+      showNav: false
     }
   },
 
@@ -111,7 +115,7 @@ export default {
       return this.$route.path === '/'
     },
     isWhite() {
-      return this.isTransparent || this.isMenuOpen
+      return this.isTransparent || this.isMenuOpen || this.isScrolled
     }
   },
 
@@ -131,17 +135,37 @@ export default {
     },
     checkIsMobile() {
       this.isMobile = window.matchMedia('(max-width: 768px)').matches
+    },
+    handleScroll() {
+      const threshold = this.isTransparent 
+        ? (window.innerHeight - 39) 
+        : 79;
+
+      this.isScrolled = window.scrollY > threshold
     }
   },
-
+  activated() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  deactivated() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   beforeDestroy() {
     document.body.style.overflow = ''
+    window.removeEventListener('scroll', this.handleScroll)
   },
 
   mounted() {
     this.checkIsMobile()
     this.mediaQuery = window.matchMedia('(max-width: 768px)')
     this.mediaQuery.addEventListener('change', this.checkIsMobile)
+
+    window.addEventListener('scroll', this.handleScroll)
+    this.handleScroll()
+
+    setTimeout(() => {
+      this.showNav = true;
+    }, 250)
   }
 }
 </script>
@@ -159,9 +183,18 @@ export default {
   align-items: center;
   transition: all 0.3s ease;
   height: 79px;
+  opacity: 0;
 
   &--transparent {
     background: transparent;
+  }
+
+  &--scrolled {
+    background: black;
+  }
+
+  &--visible {
+    opacity: 1;
   }
 
   &--white {
