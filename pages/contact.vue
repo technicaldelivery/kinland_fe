@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="page" :style="{ 'background-color': page.colorScheme }">
     <div class="contact">
       <!-- Left Column -->
       <div class="contact__info">
@@ -169,7 +169,6 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-  background: #B8D6EC;
   min-height: 100vh;
 }
 
