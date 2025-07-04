@@ -113,6 +113,24 @@ export default {
             margin-right: calc(2 * var(--fm));
           }
         }
+        &:nth-child(5) {
+          @include tablet-and-laptop-and-desktop {
+            align-self: flex-end;
+            margin-right: auto;
+            margin-left: calc(2 * var(--fm));
+          }
+        }
+        &:nth-child(6) {
+          @include tablet-and-laptop-and-desktop {
+            margin: 0 auto;
+          }
+        }
+        &:nth-child(7) {
+          @include tablet-and-laptop-and-desktop {
+            align-self: flex-end;
+            margin-right: calc(2 * var(--fm));
+          }
+        }
       }
       .statement-title {
         margin-bottom: calc(0.25 * var(--fm));

@@ -12,8 +12,8 @@
 
     <!-- Project Portfolio Section -->
     <div class="section-heading">
-      <h2>Creating places that seamlessly integrate lifestyle, urban living, and design</h2>
-      <NuxtLink to="/portfolio" class="view-all-link">VIEW ALL PROJECTS</NuxtLink>
+      <h2>{{ holdingPage.section1.text[0].children[0].text }}</h2>
+      <NuxtLink to="/portfolio" class="view-all-link">{{ holdingPage.section1.ctaText }}</NuxtLink>
     </div>
 
     <!-- Project Grid -->
@@ -45,8 +45,8 @@
     <!-- Lifestyle Banner Image -->
     <div class="lifestyle-banner">
       <SanityImage
-        v-if="holdingPage.lifestyleBanner"
-        :image="holdingPage.lifestyleBanner"
+        v-if="holdingPage.section1.image"
+        :image="holdingPage.section1.image"
         :alt="'Kinland lifestyle'"
         :forceRatio="'50%'"
       />
@@ -58,7 +58,7 @@
 
     <!-- About Us Section -->
     <div class="about-section">
-      <h2 class="about-heading">Through thoughtfully curated details, our projects offer an emotionally resonant take on the house and home that nurtures a relationship with place.</h2>
+      <h2 class="about-heading">{{ holdingPage.section2.text[0].children[0].text }}</h2>
       
       <div class="about-content">
         <div class="about-column">
@@ -75,8 +75,8 @@
     <!-- Second Lifestyle Banner -->
     <div class="lifestyle-banner">
       <SanityImage
-        v-if="holdingPage.secondLifestyleBanner"
-        :image="holdingPage.secondLifestyleBanner"
+        v-if="holdingPage.section2.image"
+        :image="holdingPage.section2.image"
         :alt="'Kinland interior design'"
         :forceRatio="'50%'"
       />

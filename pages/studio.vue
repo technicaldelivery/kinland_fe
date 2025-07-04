@@ -1,16 +1,16 @@
 <template>
   <div>
     <PageHeader
-      title="Nurturing Homes Through Thoughtful Development Management"
-      description="We manage turn-key projects and can also assist with specific aspects of development, including acquisition strategies, planning and construction."
+      :title="page.titleOverride || page.title"
+      :description="page.description"
     />
 
     <!-- Main content banner -->
     <div class="lifestyle-banner">
       <SanityImage
-        v-if="page.mainImage"
-        :image="page.mainImage"
-        :alt="'Development Management'"
+        v-if="page.featuredImage"
+        :image="page.featuredImage"
+        :alt="page.title || 'Development Management'"
         :forceRatio="'50%'"
       />
       <div v-else class="lifestyle-banner-placeholder"></div>
@@ -18,24 +18,16 @@
 
     <!-- Services Overview -->
     <div class="about-section">
-      <h2 class="about-heading">Through thoughtfully curated details, our projects offer an emotionally resonant take on the house and home that nurtures a relationship with place.</h2>
+      <h2 class="about-heading"> {{ page.services.text[0].children[0].text }} </h2>
       
-      <div class="services-grid">
-        <div class="service-column">
-          <h3>SERVICES</h3>
-          <p>The constant in our work is to better our built environment through social engagement and slow, responsible design.</p>
-        </div>
-        <div class="service-column">
-          <h3>SERVICES</h3>
-          <p>The constant in our work is to better our built environment through social engagement and slow, responsible design.</p>
-        </div>
-        <div class="service-column">
-          <h3>SERVICES</h3>
-          <p>The constant in our work is to better our built environment through social engagement and slow, responsible design.</p>
-        </div>
-        <div class="service-column">
-          <h3>SERVICES</h3>
-          <p>The constant in our work is to better our built environment through social engagement and slow, responsible design.</p>
+      <div class="services-grid" v-if="page.services && page.services.items">
+        <div 
+          v-for="service in page.services.items" 
+          :key="service._key"
+          class="service-column"
+        >
+          <h3>{{ service.text.toUpperCase() }}</h3>
+          <p>{{ service.blurb }}</p>
         </div>
       </div>
     </div>
@@ -43,8 +35,8 @@
     <!-- Second content banner -->
     <div class="lifestyle-banner">
       <SanityImage
-        v-if="page.secondaryImage"
-        :image="page.secondaryImage"
+        v-if="page.services && page.services.image"
+        :image="page.services.image"
         :alt="'Kinland development process'"
         :forceRatio="'50%'"
       />
@@ -256,6 +248,39 @@ export default {
     p {
       font-size: 1rem;
       line-height: 1.5;
+    }
+  }
+}
+
+/* Statements section styling */
+.statements-section {
+  padding: calc(2 * var(--fm)) var(--fm);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+  
+  @include phone {
+    grid-template-columns: 1fr;
+  }
+  
+  .statement-item {
+    h3 {
+      font-size: 0.675rem;
+      font-weight: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+    
+    .statement-body {
+      font-size: 1rem;
+      line-height: 1.5;
+      
+      p {
+        margin: 0;
+      }
     }
   }
 }

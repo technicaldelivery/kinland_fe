@@ -10,6 +10,14 @@ export const holdingPageRequest = `*[_id == "holdingPage" && !(_id in path('draf
       }
     }
   },
+  "lifestyleBanner": lifestyleBanner {
+    ...,
+    "metadata": asset->metadata
+  },
+  "secondLifestyleBanner": secondLifestyleBanner {
+    ...,
+    "metadata": asset->metadata
+  },
   "slides": slides[] {
     ...,
     "media": media[] {
