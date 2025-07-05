@@ -134,6 +134,9 @@ importers:
       portal-vue:
         specifier: ^2.1.7
         version: 2.1.7(vue@2.7.16)
+      punycode:
+        specifier: ^2.3.1
+        version: 2.3.1
       sanity-blocks-vue-component:
         specifier: ^0.1.0
         version: 0.1.0
