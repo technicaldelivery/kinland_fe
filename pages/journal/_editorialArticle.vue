@@ -41,9 +41,6 @@ export default {
     titleToLowercase() {
       return this.item && this.item.title.toLowerCase();
     }
-  },
-  created() {
-    console.log(this.item);
   }
 }
 </script>

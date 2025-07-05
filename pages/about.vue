@@ -30,9 +30,6 @@ export default {
   head() {
     const { title, description, image } = this.page.seoMeta || {};
     return makeMeta({ title, description, image, fallback: this.$store.state.sanity.seoMeta });
-  },
-  created() {
-    console.log(this.page);
   }
 }
 </script>
