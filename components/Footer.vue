@@ -3,9 +3,7 @@
     <!-- Newsletter Section -->
     <div class="footer__newsletter">
       <div class="footer__newsletter-left">
-        <p class="footer__newsletter-text">
-          Stay informed about luxury design trends, property market insights, and Kinland's latest projects. Our curated newsletter delivers exclusive content, expert advice, and portfolio previews directly to your inbox.
-        </p>
+        <p class="footer__newsletter-text">{{ siteSettings.newsletterDescription[0].children[0].text }}</p>
         <form class="footer__form" @submit.prevent="handleSubscribe">
           <div class="footer__form-group">
             <input 
@@ -22,8 +20,16 @@
       </div>
       
       <div class="footer__social-links">
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="footer__social-link">LINKEDIN</a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="footer__social-link">INSTAGRAM</a>
+        <a
+          v-for="item in siteSettings.socialLinks"
+          :key="item._key"
+          :href="item.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer__social-link"
+        >
+          {{ item.text.toUpperCase() }}
+        </a>
       </div>
     </div>
 
@@ -47,6 +53,12 @@ export default {
   data() {
     return {
       email: ''
+    }
+  },
+  computed: {
+  },
+    siteSettings() {
+      return this.$store.state.sanity.siteSettings;
     }
   },
   methods: {

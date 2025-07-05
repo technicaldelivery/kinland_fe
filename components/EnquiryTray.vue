@@ -9,9 +9,7 @@
         
         <div class="enquiry-tray__header">
           <h2 class="enquiry-tray__title">Make an Enquiry</h2>
-          <p class="enquiry-tray__description">
-            Have a project in mind? Get in touch to discuss your requirements. Our team specializes in bespoke design consultancy and development management for residential properties across London.
-          </p>
+          <p class="enquiry-tray__description">{{ siteSettings.enquiryDescription[0].children[0].text }}</p>
         </div>
 
         <form class="enquiry-tray__form" @submit.prevent="handleSubmit">
@@ -133,6 +131,11 @@ export default {
       } else {
         document.body.style.overflow = '';
       }
+    }
+  },
+  computed: {
+    siteSettings() {
+      return this.$store.state.sanity.siteSettings;
     }
   },
   methods: {

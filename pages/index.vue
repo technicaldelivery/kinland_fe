@@ -88,7 +88,7 @@
     <!-- Enquiry Section -->
     <div class="enquiry-section">
       <div class="enquiry-section__left">
-        <h2>Have a project in mind? Get in touch to discuss your requirements. Our team specializes in bespoke design consultancy and development management for residential properties across London.</h2>
+        <h2>{{ siteSettings.enquiryDescription[0].children[0].text }}</h2>
       </div>
       
       <div class="enquiry-section__right">
@@ -158,8 +158,9 @@ export default {
           const order = { completed: 1, 'in-progress': 2, 'in-planning': 3 };
           return (a.status && b.status) ? 
             (order[a.status.slug] - order[b.status.slug]) : 0;
-        })
-        .slice(0, 3); // Only return the top 3 projects
+    },
+    siteSettings() {
+      return this.$store.state.sanity.siteSettings;
     }
   },
   methods: {

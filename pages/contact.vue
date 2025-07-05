@@ -16,8 +16,16 @@
         <div class="contact__section">
           <h2 class="contact__section-title">Social</h2>
           <div class="contact__social">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="contact__social-link">Instagram</a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="contact__social-link">LinkedIn</a>
+            <a
+              v-for="item in siteSettings.socialLinks"
+              :key="item._key"
+              :href="item.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact__social-link"
+            >
+              {{ item.text }}
+            </a>
           </div>
         </div>
       </div>
@@ -135,6 +143,11 @@ export default {
   head() {
     const { title, description, image } = this.page.seoMeta || {};
     return makeMeta({ title, description, image, fallback: this.$store.state.sanity.seoMeta });
+  },
+  computed: {
+    siteSettings() {
+      return this.$store.state.sanity.siteSettings;
+    }
   },
   methods: {
     async handleSubmit() {

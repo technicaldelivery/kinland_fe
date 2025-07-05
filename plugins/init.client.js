@@ -9,5 +9,6 @@ export default async function ({ store, $config }) {
     await store.dispatch('sanity/NAVIGATION_CALL', sanityClient);
     await store.dispatch('sanity/PAGENOTFOUND_CALL', sanityClient);
     await store.dispatch('sanity/SEO_CALL', sanityClient);
+    await store.dispatch('sanity/SETTINGS_CALL', sanityClient);
   }
 }

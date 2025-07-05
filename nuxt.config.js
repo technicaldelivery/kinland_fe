@@ -6,6 +6,7 @@ import {
   navigationRequest,
   pageNotFoundRequest,
   seoRequest,
+  settingsRequest,
 } from "./sanityRequests.js";
 import { makeMeta } from "./utils/makeMeta.js";
 
@@ -18,10 +19,12 @@ const dynamicRoutes = async() => {
   const { navigation } = await sanityClient.fetch(navigationRequest);
   const pageNotFound = await sanityClient.fetch(pageNotFoundRequest);
   const seoMeta = await sanityClient.fetch(seoRequest);
+  const siteSettings = await sanityClient.fetch(settingsRequest);
   const payload = {
     navigation,
     pageNotFound,
     seoMeta,
+    siteSettings,
   };
   const resForEditorialArticles = await sanityClient.fetch(editorialArticlePagesRequest);
   const routesForEditorialArticles = resForEditorialArticles.editorialArticles.map(editorialArticle => {

@@ -46,7 +46,7 @@
     <!-- Enquiry Section -->
     <div class="enquiry-section">
       <div class="enquiry-section__left">
-        <h2>Have a project in mind? Get in touch to discuss your requirements. Our team specializes in bespoke design consultancy and development management for residential properties across London.</h2>
+        <h2>{{ siteSettings.enquiryDescription[0].children[0].text }}</h2>
       </div>
       
       <div class="enquiry-section__right">
@@ -107,6 +107,11 @@ export default {
   head() {
     const { title, description, image } = this.page.seoMeta || {};
     return makeMeta({ title, description, image, fallback: this.$store.state.sanity.seoMeta });
+  },
+  computed: {
+    siteSettings() {
+      return this.$store.state.sanity.siteSettings;
+    }
   },
   methods: {
     async handleEnquirySubmit() {

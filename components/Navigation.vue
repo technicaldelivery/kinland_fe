@@ -78,8 +78,16 @@
 
             <!-- Social Links -->
             <div class="navigation__social">
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="navigation__social-link">LinkedIn</a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="navigation__social-link">Instagram</a>
+              <a
+                v-for="item in siteSettings.socialLinks"
+                :key="item._key"
+                :href="item.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="navigation__social-link"
+              >
+                {{ item.text }}
+              </a>
             </div>
           </div>
 
@@ -116,6 +124,9 @@ export default {
     },
     isWhite() {
       return this.isTransparent || this.isMenuOpen || this.isScrolled
+    },
+    siteSettings() {
+      return this.$store.state.sanity.siteSettings;
     }
   },
 

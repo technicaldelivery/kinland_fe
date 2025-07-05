@@ -247,3 +247,7 @@ export const seoRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0
   ...,
   "image": image.asset->url
 }`
+
+export const settingsRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0] {
+  ...
+}`
