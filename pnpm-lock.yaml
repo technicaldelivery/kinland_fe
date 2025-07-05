@@ -191,6 +191,9 @@ importers:
       vuex:
         specifier: 3.6.2
         version: 3.6.2(vue@2.7.16)
+      webidl-conversions:
+        specifier: ^7.0.0
+        version: 7.0.0
       webpack:
         specifier: ^4.35.3
         version: 4.47.0
