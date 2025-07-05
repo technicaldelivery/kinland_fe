@@ -21,7 +21,11 @@ import { makeMeta } from "~/utils/makeMeta.js";
 export default {
   async asyncData({ $config }) {
     const sanityClient = createSanityClient($config);
-    return await sanityClient.fetch(pageRequest, { page: 'about' }).then(page => ({ page }));
+    return await sanityClient.fetch(pageRequest, { page: 'about' }).then(page => {
+      console.log('ABOUT_PAGE');
+      console.log(page);
+      return { page };
+    });
   },
   head() {
     const { title, description, image } = this.page.seoMeta || {};
