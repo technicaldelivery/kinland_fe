@@ -48,6 +48,8 @@
     "mux-embed": "^4.30.0",
     "node-fetch": "^2.7.0",
     "node-fetch-native": "1.4.1",
+    "whatwg-url": "^11.0.0",
+    "encoding": "^0.1.13",
     "nuxt": "^2.15.4",
     "nuxt-dayjs-module": "^1.1.2",
     "nuxt-mq": "^2.0.2",

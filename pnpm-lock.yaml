@@ -86,6 +86,9 @@ importers:
       defu:
         specifier: 5.0.1
         version: 5.0.1
+      encoding:
+        specifier: ^0.1.13
+        version: 0.1.13
       gsap:
         specifier: ^3.11.1
         version: 3.13.0
@@ -106,13 +109,13 @@ importers:
         version: 4.30.0
       node-fetch:
         specifier: ^2.7.0
-        version: 2.7.0
+        version: 2.7.0(encoding@0.1.13)
       node-fetch-native:
         specifier: 1.4.1
         version: 1.4.1
       nuxt:
         specifier: ^2.15.4
-        version: 2.18.1(consola@3.4.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue@2.7.16)
+        version: 2.18.1(consola@3.4.2)(encoding@0.1.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue@2.7.16)
       nuxt-dayjs-module:
         specifier: ^1.1.2
         version: 1.1.2
@@ -185,6 +188,9 @@ importers:
       webpack:
         specifier: ^4.35.3
         version: 4.47.0
+      whatwg-url:
+        specifier: ^11.0.0
+        version: 11.0.0
     devDependencies:
       '@babel/preset-env':
         specifier: ^7.26.9
@@ -2841,6 +2847,9 @@ packages:
     resolution: {integrity: sha512-Q0n9HRi4m6JuGIV1eFlmvJB7ZEVxu93IrMyiMsGC0lrMJMWzRgx6WGquyfQgZVb31vhGgXnfmPNNXmxnOkRBrg==}
     engines: {node: '>= 0.8'}
 
+  encoding@0.1.13:
+    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
+
   end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
 
@@ -3458,6 +3467,10 @@ packages:
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
+    engines: {node: '>=0.10.0'}
+
+  iconv-lite@0.6.3:
+    resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
 
   icss-utils@5.1.0:
@@ -6057,6 +6070,10 @@ packages:
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
 
+  tr46@3.0.0:
+    resolution: {integrity: sha512-l7FvfAHlcmulp8kr+flpQZmVwtu7nfRV7NZujtN0OqES8EL4O4e0qqzL0DC5gAvx/ZC/9lk6rhcUwYvkBnBnYA==}
+    engines: {node: '>=12'}
+
   tree-dump@1.0.3:
     resolution: {integrity: sha512-il+Cv80yVHFBwokQSfd4bldvr1Md951DpgAGfmhydt04L+YzHgubm2tQ7zueWDcGENKHq0ZvGFR/hjvNXilHEg==}
     engines: {node: '>=10.0'}
@@ -6412,6 +6429,10 @@ packages:
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
 
+  webidl-conversions@7.0.0:
+    resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
+    engines: {node: '>=12'}
+
   webpack-bundle-analyzer@4.10.2:
     resolution: {integrity: sha512-vJptkMm9pk5si4Bv922ZbKLV8UTT4zib4FPgXMhgzUny0bfDDkLXAVQs3ly3fS4/TN9ROFtb0NFrm04UXFE/Vw==}
     engines: {node: '>= 10.13.0'}
@@ -6460,6 +6481,10 @@ packages:
     engines: {node: '>=14.21.3'}
     peerDependencies:
       webpack: 3 || 4 || 5
+
+  whatwg-url@11.0.0:
+    resolution: {integrity: sha512-RKT8HExMpoYx4igMiVMY83lN6UeITKJlBQ+vR/8ZJ8OCdSiN3RwCq+9gH0+Xzj0+5IrM6i4j/6LuvzbZIQgEcQ==}
+    engines: {node: '>=12'}
 
   whatwg-url@5.0.0:
     resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
@@ -8044,7 +8069,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@nuxt/telemetry@1.5.0':
+  '@nuxt/telemetry@1.5.0(encoding@0.1.13)':
     dependencies:
       arg: 5.0.2
       chalk: 4.1.2
@@ -8059,7 +8084,7 @@ snapshots:
       inquirer: 7.3.3
       jiti: 1.21.7
       nanoid: 3.3.11
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       parse-git-config: 3.0.0
       rc9: 2.1.2
       std-env: 3.9.0
@@ -10322,6 +10347,10 @@ snapshots:
 
   encodeurl@2.0.0: {}
 
+  encoding@0.1.13:
+    dependencies:
+      iconv-lite: 0.6.3
+
   end-of-stream@1.4.4:
     dependencies:
       once: 1.4.0
@@ -11101,6 +11130,10 @@ snapshots:
     dependencies:
       safer-buffer: 2.1.2
 
+  iconv-lite@0.6.3:
+    dependencies:
+      safer-buffer: 2.1.2
+
   icss-utils@5.1.0(postcss@8.5.5):
     dependencies:
       postcss: 8.5.5
@@ -11815,9 +11848,11 @@ snapshots:
 
   node-fetch-native@1.6.6: {}
 
-  node-fetch@2.7.0:
+  node-fetch@2.7.0(encoding@0.1.13):
     dependencies:
       whatwg-url: 5.0.0
+    optionalDependencies:
+      encoding: 0.1.13
 
   node-html-parser@6.1.13:
     dependencies:
@@ -11901,7 +11936,7 @@ snapshots:
     dependencies:
       webfontloader: 1.6.28
 
-  nuxt@2.18.1(consola@3.4.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue@2.7.16):
+  nuxt@2.18.1(consola@3.4.2)(encoding@0.1.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue@2.7.16):
     dependencies:
       '@nuxt/babel-preset-app': 2.18.1(vue@2.7.16)
       '@nuxt/builder': 2.18.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue@2.7.16)
@@ -11913,7 +11948,7 @@ snapshots:
       '@nuxt/loading-screen': 2.0.4
       '@nuxt/opencollective': 0.4.1
       '@nuxt/server': 2.18.1
-      '@nuxt/telemetry': 1.5.0
+      '@nuxt/telemetry': 1.5.0(encoding@0.1.13)
       '@nuxt/utils': 2.18.1
       '@nuxt/vue-app': 2.18.1
       '@nuxt/vue-renderer': 2.18.1
@@ -13918,6 +13953,10 @@ snapshots:
 
   tr46@0.0.3: {}
 
+  tr46@3.0.0:
+    dependencies:
+      punycode: 2.3.1
+
   tree-dump@1.0.3(tslib@2.8.1):
     dependencies:
       tslib: 2.8.1
@@ -14337,6 +14376,8 @@ snapshots:
 
   webidl-conversions@3.0.1: {}
 
+  webidl-conversions@7.0.0: {}
+
   webpack-bundle-analyzer@4.10.2:
     dependencies:
       '@discoveryjs/json-ext': 0.5.7
@@ -14426,6 +14467,11 @@ snapshots:
       std-env: 3.9.0
       webpack: 4.47.0
       wrap-ansi: 7.0.0
+
+  whatwg-url@11.0.0:
+    dependencies:
+      tr46: 3.0.0
+      webidl-conversions: 7.0.0
 
   whatwg-url@5.0.0:
     dependencies:
