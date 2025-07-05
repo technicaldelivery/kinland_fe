@@ -37,7 +37,7 @@
       <SanityImage
         v-if="page.services && page.services.image"
         :image="page.services.image"
-        :alt="'Kinland development process'"
+        :alternativeText="page.services.image.alternativeText"
         :forceRatio="'50%'"
       />
       <div v-else class="lifestyle-banner-placeholder"></div>
@@ -102,7 +102,11 @@ export default {
   },
   async asyncData({ $config }) {
     const sanityClient = createSanityClient($config);
-    return await sanityClient.fetch(pageRequest, { page: 'studio' }).then(page => ({ page }));
+    return await sanityClient.fetch(pageRequest, { page: 'studio' }).then(page => {
+      console.log('STUDIO_PAGE');
+      console.log(page);
+      return { page };
+    });
   },
   head() {
     const { title, description, image } = this.page.seoMeta || {};
