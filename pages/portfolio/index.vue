@@ -1,8 +1,8 @@
 <template>
   <div>
     <PageHeader
-      title="Portfolio"
-      description="Explore Kinland Studio's portfolio of high-end residential design and development projects. View our exclusive collection of bespoke interiors, architectural transformations, and luxury property developments across London and beyond. Each project showcases our expertise in spatial design, custom furnishings, and premium property management."
+      :title="page.titleOverride || page.title"
+      :description="page.description"
     />
     
     <!-- Filter Section -->
@@ -85,7 +85,11 @@ export default {
   async asyncData({ store, $config }) {
     const sanityClient = createSanityClient($config);
     if (!store.state.sanity.projects) await store.dispatch('sanity/PROJECTS_CALL', sanityClient);
-    return await sanityClient.fetch(pageRequest, { page: 'portfolio' }).then(page => ({ page }));
+    return await sanityClient.fetch(pageRequest, { page: 'portfolio' }).then(page => {
+      console.log('PORTFOLIO_PAGE');
+      console.log(page);
+      return { page };
+    });
   },
   head() {
     const { title, description, image } = this.page.seoMeta || {};
