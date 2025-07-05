@@ -37,12 +37,15 @@
     <div class="footer__nav">
       <div class="footer__copyright">© {{ new Date().getFullYear() }} KINLAND</div>
       <nav class="footer__links">
-        <NuxtLink to="/portfolio" class="footer__link">PORTFOLIO</NuxtLink>
-        <NuxtLink to="/studio" class="footer__link">STUDIO</NuxtLink>
-        <NuxtLink to="/journal" class="footer__link">JOURNAL</NuxtLink>
-        <NuxtLink to="/team" class="footer__link">TEAM</NuxtLink>
-        <NuxtLink to="/about" class="footer__link">ABOUT</NuxtLink>
-        <NuxtLink to="/contact" class="footer__link">CONTACT</NuxtLink>
+        <nuxt-link 
+          v-for="item in navigation?.header" 
+          :key="item._key"
+          :to="`/${item.slug}`"
+          class="footer__link"
+          :class="{ 'footer__link--active': $route.path === `/${item.slug}` }"
+        >
+          {{ item.title.toUpperCase() }}
+        </nuxt-link>
       </nav>
     </div>
   </footer>
@@ -56,6 +59,8 @@ export default {
     }
   },
   computed: {
+    navigation() {
+      return this.$store.state.sanity.navigation
   },
     siteSettings() {
       return this.$store.state.sanity.siteSettings;
