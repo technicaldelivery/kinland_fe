@@ -25,7 +25,7 @@
           <SanityImage
             v-if="item.image && item.image.asset"
             :image="item.image"
-            :alt="item.title"
+            :alternativeText="item.title"
             :forceRatio="'66.666%'"
           />
           <div v-else>No featured image available</div>
@@ -59,7 +59,7 @@
               >
                 <SanityImage
                   :image="portraitImg"
-                  :alt="item.title"
+                  :alternativeText="item.title"
                   forceRatio="150%"
                 />
               </div>
@@ -74,7 +74,7 @@
             >
               <SanityImage
                 :image="image.image"
-                :alt="item.title"
+                :alternativeText="item.title"
                 forceRatio="66.666%"
               />
             </div>

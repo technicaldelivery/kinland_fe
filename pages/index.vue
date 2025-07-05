@@ -29,7 +29,7 @@
         <SanityImage
           v-if="project.image"
           :image="project.image"
-          :alt="project.title"
+          :alternativeText="project.title"
           :forceRatio="'66.666%'"
         />
         <ProjectTextCard 

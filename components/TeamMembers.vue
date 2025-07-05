@@ -14,7 +14,7 @@
         <SanityImage
           v-if="teamMember.image"
           :image="teamMember.image"
-          :alt="teamMember.name"
+          :alternativeText="teamMember.name"
           objectFit="contain"
         />
       </div>

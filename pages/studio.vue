@@ -10,7 +10,7 @@
       <SanityImage
         v-if="page.featuredImage"
         :image="page.featuredImage"
-        :alt="page.title || 'Development Management'"
+        :alternativeText="page.title || 'Development Management'"
         :forceRatio="'50%'"
       />
       <div v-else class="lifestyle-banner-placeholder"></div>

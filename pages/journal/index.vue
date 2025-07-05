@@ -14,7 +14,7 @@
         <SanityImage
           v-if="article.coverImages && article.coverImages.length"
           :image="article.coverImages[0]"
-          :alt="article.title"
+          :alternativeText="article.title"
           :forceRatio="'66.666%'"
         />
         <div v-else class="journal-article-placeholder"></div>

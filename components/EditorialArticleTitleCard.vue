@@ -29,7 +29,7 @@
           <SanityImage
             v-if="item.coverImage"
             :image="item.coverImage"
-            :alt="item.title"
+            :alternativeText="item.title"
           />
         </div>
       </div>
