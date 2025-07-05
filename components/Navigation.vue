@@ -7,9 +7,9 @@
     { 'navigation--visible': this.showNav }
   ]">
     <!-- Logo -->
-    <nuxt-link to="/" class="navigation__logo">
+    <div class="navigation__logo">
       <IconKinland :color="isWhite ? 'white' : 'black'" />
-    </nuxt-link>
+    </div>
 
     <!-- Right CTAs -->
     <div class="navigation__ctas">
