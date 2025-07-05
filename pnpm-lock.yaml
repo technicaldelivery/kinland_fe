@@ -104,6 +104,9 @@ importers:
       mux-embed:
         specifier: ^4.30.0
         version: 4.30.0
+      node-fetch:
+        specifier: ^2.7.0
+        version: 2.7.0
       node-fetch-native:
         specifier: 1.4.1
         version: 1.4.1
