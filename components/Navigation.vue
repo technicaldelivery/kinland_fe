@@ -61,9 +61,7 @@
             <!-- Newsletter Section -->
             <div class="navigation__newsletter">
               <h3 class="navigation__newsletter-title">Stay Connected</h3>
-              <p class="navigation__newsletter-text">
-                Stay informed about luxury design trends, property market insights, and Kinland's latest projects.
-              </p>
+              <p class="navigation__newsletter-text">{{ newsletterDescriptionFirstSentence }}</p>
               <form @submit.prevent="handleSubscribe" class="navigation__form">
                 <input 
                   type="email" 
@@ -127,6 +125,11 @@ export default {
     },
     siteSettings() {
       return this.$store.state.sanity.siteSettings;
+    },
+    newsletterDescriptionFirstSentence() {
+      const newsletterDescription = this.$store.state.sanity.siteSettings?.newsletterDescription?.[0]?.children?.[0]?.text || '';
+      const firstSentence = newsletterDescription.match(/[^.!?]+[.!?]/);
+      return firstSentence ? firstSentence[0].trim() : '';
     }
   },
 
