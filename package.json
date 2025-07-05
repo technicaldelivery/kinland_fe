@@ -50,6 +50,7 @@
     "node-fetch-native": "1.4.1",
     "whatwg-url": "^11.0.0",
     "encoding": "^0.1.13",
+    "tr46": "^3.0.0",
     "nuxt": "^2.15.4",
     "nuxt-dayjs-module": "^1.1.2",
     "nuxt-mq": "^2.0.2",

@@ -137,6 +137,9 @@ importers:
       smartquotes:
         specifier: ^2.3.2
         version: 2.3.2
+      tr46:
+        specifier: ^3.0.0
+        version: 3.0.0
       ufo:
         specifier: 0.7.11
         version: 0.7.11
