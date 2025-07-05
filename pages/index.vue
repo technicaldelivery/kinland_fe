@@ -13,7 +13,9 @@
     <!-- Project Portfolio Section -->
     <div class="section-heading">
       <h2>{{ holdingPage.section1.text[0].children[0].text }}</h2>
-      <NuxtLink to="/portfolio" class="view-all-link">{{ holdingPage.section1.ctaText }}</NuxtLink>
+      <NuxtLink :to="`/${holdingPage.section1.relatedPage.slug}`" class="view-all-link">
+        {{ holdingPage.section1.ctaText }}
+      </NuxtLink>
     </div>
 
     <!-- Project Grid -->
@@ -47,7 +49,7 @@
       <SanityImage
         v-if="holdingPage.section1.image"
         :image="holdingPage.section1.image"
-        :alt="'Kinland lifestyle'"
+        :alternativeText="holdingPage.section1.image.alternativeText"
         :forceRatio="'50%'"
       />
       <!-- Placeholder when no image is available -->
@@ -60,14 +62,14 @@
     <div class="about-section">
       <h2 class="about-heading">{{ holdingPage.section2.text[0].children[0].text }}</h2>
       
-      <div class="about-content">
-        <div class="about-column">
-          <h3>OUR STORY</h3>
-          <p>The contrast in our work is in better our built environment through social engagement and slow, responsible design.</p>
-        </div>
-        <div class="about-column">
-          <h3>GIVING BACK</h3>
-          <p>In addition to promoting slow and responsible design, we work with charities and actively support our communities through design that prioritizes fragile ecosystems.</p>
+      <div v-if="holdingPage.section2.items" class="about-content">
+        <div 
+          v-for="(item, index) in holdingPage.section2.items" 
+          :key="item._key || index" 
+          class="about-column"
+        >
+          <h3>{{ item.text }}</h3>
+          <p>{{ item.blurb }}</p>
         </div>
       </div>
     </div>
@@ -77,7 +79,7 @@
       <SanityImage
         v-if="holdingPage.section2.image"
         :image="holdingPage.section2.image"
-        :alt="'Kinland interior design'"
+        :alternativeText="holdingPage.section2.image.alternativeText"
         :forceRatio="'50%'"
       />
       <!-- Placeholder when no image is available -->
@@ -129,9 +131,13 @@ import { makeMeta } from "~/utils/makeMeta.js";
 import { mapMutations } from 'vuex';
 
 export default {
-  asyncData({ $config }) {
+  async asyncData({ $config }) {
     const sanityClient = createSanityClient($config);
-    return sanityClient.fetch(holdingPageRequest).then(holdingPage => ({ holdingPage }));
+    return await sanityClient.fetch(holdingPageRequest).then(holdingPage => {
+      console.log('HOLDING_PAGE');
+      console.log(holdingPage);
+      return { holdingPage };
+    });
   },
   data() {
     return {
@@ -150,14 +156,20 @@ export default {
   },
   computed: {
     featuredProjects() {
-      if (!this.$store.state.sanity.projects) return [];
-      
-      // Sort projects by status priority: completed, in-progress, in-planning
-      return [...this.$store.state.sanity.projects]
-        .sort((a, b) => {
+      const allProjects = this.$store.state.sanity.projects || [];
+      const relatedRefs = this.holdingPage?.section1?.relatedProjects?.map(item => item._id) || [];
+
+      if (!relatedRefs.length) return [];
+
+      const projectMap = Object.fromEntries(allProjects.map(project => [project._id, project]));
+
+      return relatedRefs.length
+        ? relatedRefs.map(ref => projectMap[ref]).filter(Boolean)
+        : allProjects.sort((a, b) => {
           const order = { completed: 1, 'in-progress': 2, 'in-planning': 3 };
           return (a.status && b.status) ? 
             (order[a.status.slug] - order[b.status.slug]) : 0;
+          }).slice(0, 3);
     },
     siteSettings() {
       return this.$store.state.sanity.siteSettings;
