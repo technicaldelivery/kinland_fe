@@ -203,7 +203,12 @@ export default {
   margin: 0 auto;
 
   &__info {
-    padding-top: 2rem;
+    max-width: 70%;
+    // padding-top: 2rem;
+
+    @include phone-and-tablet {
+      max-width: 100%;
+    }
   }
 
   &__title {
@@ -215,7 +220,7 @@ export default {
   &__description {
     font-size: 1rem;
     line-height: 1.6;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
 
   &__section {
@@ -343,6 +348,8 @@ export default {
     font-family: 'ABC Marist', serif;
     font-weight: 400;
     font-style: normal;
+    display: inline-block;
+    width: 190px;
 
     &:hover {
       opacity: 0.8;

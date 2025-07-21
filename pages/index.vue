@@ -13,9 +13,6 @@
     <!-- Project Portfolio Section -->
     <div class="section-heading">
       <h2>{{ holdingPage.section1.text[0].children[0].text }}</h2>
-      <NuxtLink :to="`/${holdingPage.section1.relatedPage.slug}`" class="view-all-link">
-        {{ holdingPage.section1.ctaText }}
-      </NuxtLink>
     </div>
 
     <!-- Project Grid -->
@@ -43,6 +40,12 @@
         </div>
       </NuxtLink>
     </section>
+
+    <div class="portfolio-cta">
+      <NuxtLink :to="`/${holdingPage.section1.relatedPage.slug}`" class="view-all-link">
+          {{ holdingPage.section1.ctaText }}
+      </NuxtLink>
+    </div>
 
     <!-- Lifestyle Banner Image -->
     <div class="lifestyle-banner">
@@ -235,35 +238,20 @@ section {
 
 .section-heading {
   padding: calc(2 * var(--fm)) var(--fm);
-  width: 45%;
+  width: 40%;
   // display: flex;
   // justify-content: space-between;
   // align-items: flex-end;
   
   h2 {
-    max-width: 70%;
     font-family: 'ABC Marist', serif;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     line-height: 1.3;
     font-weight: normal;
     margin-bottom: 0.6em;
   }
-  
-  .view-all-link {
-    text-decoration: none;
-    color: inherit;
-    font-size: 0.6rem;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 2px;
-    transition: opacity 0.3s ease;
-    
-    &:hover {
-      opacity: 0.6;
-    }
-  }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     width: 100%;
   }
 }
@@ -272,7 +260,7 @@ section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--fm);
-  padding: 0 var(--fm) calc(4 * var(--fm));
+  padding: 0 var(--fm) calc(2 * var(--fm));
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -296,6 +284,24 @@ section {
     }
   }
 
+}
+
+.portfolio-cta {
+  padding: 0 var(--fm) calc(4 * var(--fm));
+
+  .view-all-link {
+      text-decoration: none;
+      color: inherit;
+      font-size: 0.6rem;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+      transition: opacity 0.3s ease;
+      
+      &:hover {
+        opacity: 0.6;
+      }
+    }
 }
 
 .lifestyle-banner {
@@ -356,7 +362,7 @@ section {
   
   .about-heading {
     font-family: 'ABC Marist', serif;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     line-height: 1.3;
     font-weight: normal;
     // margin-bottom: calc(2 * var(--fm));
@@ -381,7 +387,7 @@ section {
       flex-direction: column;
       
       h3 {
-        font-size: 1rem;
+        font-size: 0.75rem;
         font-weight: normal;
         margin-bottom: 1rem;
       }
@@ -433,8 +439,8 @@ section {
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      gap: 0.75rem;
+      // margin-bottom: 1rem;
       
       @media (max-width: 768px) {
         grid-template-columns: 1fr;

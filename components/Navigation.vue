@@ -4,7 +4,8 @@
     { 'navigation--transparent': isTransparent },
     { 'navigation--white': isWhite },
     { 'navigation--scrolled': this.isScrolled },
-    { 'navigation--visible': this.showNav }
+    { 'navigation--visible': this.showNav },
+    { 'navigation--hidden': this.isScrollingDown && !this.isMenuOpen }
   ]">
     <!-- Logo -->
     <div class="navigation__logo">
@@ -31,8 +32,8 @@
       <nuxt-link to="/contact" class="navigation__button navigation__button--enquire">
         <span v-if="!isMobile" class="navigation__button-text">Enquire Now</span>
         <span v-else class="navigation__button-icon" aria-hidden="true">
-          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16v-5.5A3.5 3.5 0 0 0 7.5 7m3.5 9H4v-5.5A3.5 3.5 0 0 1 7.5 7m3.5 9v4M7.5 7H14m0 0V4h2.5M14 7v3m-3.5 6H20v-6a3 3 0 0 0-3-3m-2 9v4m-8-6.5h1"/>
+          <svg :fill="isWhite ? '#000000' : '#ffffff'" width="18px" height="18px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 1694.235h1920V226H0v1468.235ZM112.941 376.664V338.94H1807.06v37.723L960 1111.233l-847.059-734.57ZM1807.06 526.198v950.513l-351.134-438.89-88.32 70.475 378.353 472.998H174.042l378.353-472.998-88.32-70.475-351.134 438.89V526.198L960 1260.768l847.059-734.57Z" fill-rule="evenodd"/>
           </svg>
         </span>
       </nuxt-link>
@@ -109,7 +110,9 @@ export default {
       email: '',
       isMobile: false,
       isScrolled: false,
-      showNav: false
+      showNav: false,
+      lastScrollY: 0,
+      isScrollingDown: false
     }
   },
 
@@ -151,11 +154,24 @@ export default {
       this.isMobile = window.matchMedia('(max-width: 768px)').matches
     },
     handleScroll() {
+      const currentScrollY = window.scrollY;
       const threshold = this.isTransparent 
         ? (window.innerHeight - 39) 
         : 79;
 
-      this.isScrolled = window.scrollY > threshold
+      // Update scrolled state
+      this.isScrolled = currentScrollY > threshold;
+
+      // Determine scroll direction
+      if (currentScrollY > this.lastScrollY && currentScrollY > 100) {
+        // Scrolling down and past initial threshold
+        this.isScrollingDown = true;
+      } else if (currentScrollY < this.lastScrollY) {
+        // Scrolling up
+        this.isScrollingDown = false;
+      }
+
+      this.lastScrollY = currentScrollY;
     }
   },
   activated() {
@@ -198,6 +214,7 @@ export default {
   transition: all 0.3s ease;
   height: 79px;
   opacity: 0;
+  transform: translateY(0);
 
   &--transparent {
     background: transparent;
@@ -209,6 +226,10 @@ export default {
 
   &--visible {
     opacity: 1;
+  }
+
+  &--hidden {
+    transform: translateY(-100%);
   }
 
   &--white {
@@ -234,7 +255,7 @@ export default {
 
   &__ctas {
     display: flex;
-    gap: 1rem;
+    gap: 0.7rem;
     z-index: 1001;
     font-size: 12px;
     padding-left: 1rem;
@@ -294,6 +315,7 @@ export default {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background: black;
   }
 
   &__links {

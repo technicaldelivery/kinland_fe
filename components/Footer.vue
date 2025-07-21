@@ -154,7 +154,7 @@ export default {
     background: transparent;
     color: black;
     font-family: 'ABC Marist', serif;
-    font-size: 0.85rem;
+    font-size: 0.65rem;
     cursor: pointer;
     transition: all 0.3s ease;
     letter-spacing: 0.05em;

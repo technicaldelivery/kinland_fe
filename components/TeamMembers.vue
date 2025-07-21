@@ -84,7 +84,7 @@ export default {
         top: 0;
         height: 100%;
         padding-top: 0 !important;
-        object-fit: contain;
+        object-fit: cover;
         overflow: hidden;
       }
       // height: 0;
@@ -92,6 +92,10 @@ export default {
     }
     .team-member-titles {
       margin-bottom: calc(0.5 * var(--fm));
+
+      .name {
+        font-size: 1.4rem;
+      }
     }
   }
 }

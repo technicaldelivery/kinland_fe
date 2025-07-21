@@ -166,7 +166,7 @@ export default {
 }
 
 .portfolio-projects {
-  margin: calc(4 * var(--fm)) var(--fm) calc(2 * var(--fm)) var(--fm);
+  margin: calc(2 * var(--fm)) var(--fm) calc(2 * var(--fm)) var(--fm);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: var(--fm);
