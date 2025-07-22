@@ -2,7 +2,7 @@
   <div
     class="image-wrapper"
     :style="{
-      'padding-top': forceRatio ? forceRatio : 'calc(' + image.metadata.dimensions.height / image.metadata.dimensions.width + ' * 100%',
+      'padding-top': forceRatio ? forceRatio : image.metadata && image.metadata.dimensions ? 'calc(' + image.metadata.dimensions.height / image.metadata.dimensions.width + ' * 100%)' : '66.67%',
       borderColor: borderColour,
       'box-shadow': glow,
       'background-color': 'var(--color)'
@@ -16,16 +16,15 @@
       class="lazyload lazypreload"
       :style="{ objectFit, objectPosition }"
       border="0"
-      :alt="alt"
+      :alt="alternativeText"
     />
   </div>
 </template>
 
 <script>
-import sanity from "../sanity"
+import { createSanityClient } from "~/sanity.js";
 import imageUrlBuilder from "@sanity/image-url"
 import colourGen from "~/mixins/colourGen.js"
-const builder = imageUrlBuilder(sanity)
 
 export default {
   mixins: [ colourGen ],
@@ -34,7 +33,7 @@ export default {
       type: Object,
       required: true
     },
-    alt: {
+    alternativeText: {
       type: String,
       default: "Missing caption"
     },
@@ -72,9 +71,13 @@ export default {
   },
   computed: {
     imageUrl() {
+      const sanityClient = createSanityClient(this.$config);
+      const builder = imageUrlBuilder(sanityClient);
       return builder.image(this.image).width(this.width)
     },
     srcset() {
+      const sanityClient = createSanityClient(this.$config);
+      const builder = imageUrlBuilder(sanityClient);
       if (this.fullscreen && this.viewportPortrait) {
         return builder.image(this.image).width(this.aspectRatioAdjust(300)) + "&auto=format&q=90 300w, " +
           builder.image(this.image).width(this.aspectRatioAdjust(400)) + "&auto=format&q=90 400w, " +
@@ -116,6 +119,8 @@ export default {
       }
     },
     loadingImageUrl() {
+      const sanityClient = createSanityClient(this.$config);
+      const builder = imageUrlBuilder(sanityClient);
       return builder.image(this.image).width(6).blur(10)
     },
     hotspot() {
@@ -127,6 +132,7 @@ export default {
           height: this.image.hotspot.height * 100,
         }
       }
+      return null;
     },
     objectPosition() {
       if (this.hotspot && this.fullscreen) {
@@ -138,7 +144,11 @@ export default {
   },
   methods: {
     aspectRatioAdjust(size) {
-      let imageAR = this.image.metadata.dimensions.aspectRatio;
+      if (!this.image.metadata || !this.image.metadata.dimensions) {
+        return size; // Return original size if metadata is missing
+      }
+      
+      let imageAR = this.image.metadata.dimensions.aspectRatio || 1.5; // Default to 1.5 aspect ratio
       let viewportAR = this.viewportWidth / this.viewportHeight;
       let multiplier = imageAR / viewportAR;
       // console.table({ imageAR, viewportAR, multiplier });
@@ -167,6 +177,23 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+// Override for lightbox images
+::v-deep .lightbox__image {
+  height: auto !important;
+  max-height: 90vh !important;
+  width: auto !important;
+  padding-top: 0 !important;
+}
+
+::v-deep .lightbox__image img {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  max-height: 90vh !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
 }
 
 </style>

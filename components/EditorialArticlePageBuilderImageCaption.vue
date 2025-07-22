@@ -27,7 +27,7 @@
     >
       <SanityImage
         :image="caption"
-        :alt="''"
+        :alternativeText="''"
       />
     </div>
   </div>

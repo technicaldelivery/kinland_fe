@@ -9,7 +9,7 @@
       <SanityImage
         :key="image._key"
         :image="image"
-        :alt="image.alt"
+        :alternativeText="image.alternativeText"
         objectFit="contain"
       />
     </div>

@@ -9,7 +9,7 @@
       <SanityImage
         v-if="item._type === 'image'"
         :image="item"
-        :alt="''"
+        :alternativeText="''"
       />
       <EditorialArticlePageBuilderMediaBlockMediaItemCaptionNumber 
         v-if="item && item.body"

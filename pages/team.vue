@@ -12,20 +12,22 @@
 </template>
 
 <script>
-import sanity from "~/sanity.js";
+import { createSanityClient } from "~/sanity.js";
 import { pageRequest } from "~/sanityRequests.js";
 import { makeMeta } from "~/utils/makeMeta.js";
 
 export default {
-  async asyncData() {
-    return await sanity.fetch(pageRequest, { page: 'team' }).then(page => ({ page }));
+  async asyncData({ $config }) {
+    const sanityClient = createSanityClient($config);
+    return await sanityClient.fetch(pageRequest, { page: 'team' }).then(page => {
+      console.log('TEAM_PAGE');
+      console.log(page);
+      return { page };
+    });
   },
   head() {
-    const { title, description, image } = this.page.seo || {};
-    return makeMeta({ title, description, image, fallback: this.$store.state.sanity.seo });
-  },
-  created() {
-    console.log(this.page);
+    const { title, description, image } = this.page.seoMeta || {};
+    return makeMeta({ title, description, image, fallback: this.$store.state.sanity.seoMeta });
   }
 }
 </script>

@@ -19,10 +19,10 @@
             class="menu-button ts-s small-caps"
           >
             menu
-          </div><nuxt-link v-if="$route.name.split('-') && $route.name.split('-').length > 1" :to="`/${$route.name.split('-')[0]}`" class="menu-status header-link ts-s small-caps">
-            {{ $route.name.split('-')[0] }}
+          </div><nuxt-link v-if="$route.name?.split('-') && $route.name?.split('-').length > 1" :to="`/${$route.name?.split('-')[0]}`" class="menu-status header-link ts-s small-caps">
+            {{ $route.name?.split('-')[0] }}
           </nuxt-link><div v-else-if="!isIndex" class="menu-status ts-s small-caps">
-            {{ $route.name.split('-')[0] }}
+            {{ $route.name?.split('-')[0] }}
           </div><div class="menu-status ts-s small-caps">
             <portal-target name="subnavigation" class="subnavigation"></portal-target>
           </div> 
@@ -71,7 +71,7 @@ export default {
   methods: {
     handleClickaway() {
       console.log(this.$route);
-      console.log(this.$route.name.split('-'));
+      console.log(this.$route.name?.split('-'));
       this.isActive = false;
     }
   }

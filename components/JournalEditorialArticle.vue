@@ -17,7 +17,7 @@
         <div class="image-wrapper-wrapper">
           <SanityImage
             :image="editorialArticle.coverImages.length && editorialArticle.coverImages[0]"
-            :alt="editorialArticle.title"
+            :alternativeText="editorialArticle.title"
             class="image-wrapper-deep"
           />
         </div>
@@ -52,7 +52,7 @@
         <div class="image-wrapper-wrapper">
           <SanityImage
             :image="editorialArticle.coverImages.length && editorialArticle.coverImages[1]"
-            :alt="editorialArticle.title"
+            :alternativeText="editorialArticle.title"
             class="image-wrapper-deep"
           />
         </div>

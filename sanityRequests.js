@@ -10,24 +10,15 @@ export const holdingPageRequest = `*[_id == "holdingPage" && !(_id in path('draf
       }
     }
   },
-  "slides": slides[] {
+  "section1": section1 {
     ...,
-    "media": media[] {
-      _type == 'image' => {
+    "relatedProjects": relatedProjects[] {
+      "_id": @->_id
+  },
+    "relatedPage": relatedPage {
         ...,
-        "metadata": asset->metadata
+      "slug": @->slug.current
       },
-      _type == 'video' => {
-        ...,
-        "video": video {
-          ...,
-          asset->{
-            ...,
-            "url": "https://stream.mux.com/" + playbackId
-          }
-        }
-      },
-    }
   }
 }`
 
@@ -98,7 +89,7 @@ const editorialArticle = `{
     ...,
     "metadata": asset->metadata
   },
-  "items": items[] {
+  "articleContent": articleContent[] {
     ...,
     "media": media[] {
       _type == 'image' => {
@@ -117,17 +108,17 @@ const editorialArticle = `{
       },
     }
   },
-  "nextArticle": *[_type == "editorialArticle" && date < ^.date && !(_id in path('drafts.**'))] | order(date desc)[0]{
+  "nextArticle": *[_type == "editorialArticles" && date < ^.date && !(_id in path('drafts.**'))] | order(date desc)[0]{
     _createdAt,
     title,
     'slug': slug.current,
   },
-  "latestArticle": *[_type == "editorialArticle" && !(_id in path('drafts.**'))] | order(date desc)[0]{
+  "latestArticle": *[_type == "editorialArticles" && !(_id in path('drafts.**'))] | order(date desc)[0]{
     _createdAt,
     title,
     'slug': slug.current,
   },
-  "seo": {
+  "seoMeta": {
     "title": select(
       defined(title) => title
     ),
@@ -148,7 +139,7 @@ const project = `{
     title,
     "slug": slug.current
   },
-  "items": items[] {
+  "slides": slides[] {
     ...,
     "media": media[] {
       _type == 'image' => {
@@ -167,7 +158,7 @@ const project = `{
       },
     }
   },
-  "seo": {
+  "seoMeta": {
     "title": select(
       defined(title) => title
     ),
@@ -190,21 +181,21 @@ const page = `{
       "metadata": asset->metadata
     }
   },
-  "seo": {
-    ...seo,
+  "seoMeta": {
+    ...seoMeta,
     "title": select(
-      defined(seo.title) => seo.title,
+      defined(seoMeta.title) => seoMeta.title,
       defined(title) => title
     ),
-    "image": seo.image.asset->url
+    "image": seoMeta.image.asset->url
   }
 }`
 
 // REQUESTS
 
-export const editorialArticlesPageRequest = `{ "editorialArticles": *[_type == "editorialArticle" && !(_id in path('drafts.**'))] | order(date desc) ${ editorialArticles } }`
-export const editorialArticlePageRequest = `*[_type == "editorialArticle" && slug.current == $editorialArticle && !(_id in path('drafts.**'))][0] ${ editorialArticle }`
-export const editorialArticlePagesRequest = `{ "editorialArticles": *[_type == "editorialArticle" && !(_id in path('drafts.**'))] ${ editorialArticle } }`
+export const editorialArticlesPageRequest = `{ "editorialArticles": *[_type == "editorialArticles" && !(_id in path('drafts.**'))] | order(date desc) ${ editorialArticles } }`
+export const editorialArticlePageRequest = `*[_type == "editorialArticles" && slug.current == $editorialArticle && !(_id in path('drafts.**'))][0] ${ editorialArticle }`
+export const editorialArticlePagesRequest = `{ "editorialArticles": *[_type == "editorialArticles" && !(_id in path('drafts.**'))] ${ editorialArticle } }`
 
 export const colorsRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0].defaultColorScheme-> {
   ...,
@@ -235,7 +226,11 @@ export const pageNotFoundRequest = `*[_id == "settings" && !(_id in path('drafts
   }
 }`
 
-export const seoRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0].seo {
+export const seoRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0].seoMeta {
   ...,
   "image": image.asset->url
+}`
+
+export const settingsRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0] {
+  ...
 }`

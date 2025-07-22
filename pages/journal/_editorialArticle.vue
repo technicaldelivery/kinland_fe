@@ -8,7 +8,7 @@
       />
       <EditorialArticlePageBuilder
         v-if="item"
-        :blocks="item.items"
+        :blocks="item.articleContent"
         :title="item.title"
         :colorScheme="item.colorScheme"
         :nextArticle="item.nextArticle"
@@ -16,33 +16,44 @@
       />
     </section>
   </div>
-  <Dynamic404 v-else />
 </template>
 
 <script>
-import sanity from "~/sanity.js";
+import { createSanityClient } from "~/sanity.js";
 import { editorialArticlePageRequest } from "~/sanityRequests.js";
 import { makeMeta } from "~/utils/makeMeta.js";
 
 export default {
-  asyncData({ params, payload }) {
-    if (payload) return { item: payload.item }
-    else return sanity.fetch(editorialArticlePageRequest, params).then(data => ({ item: data }))
+  async asyncData({ params, payload, $config }) {
+    const sanityClient = createSanityClient($config);
+    if (payload) {
+      console.log('ARTICLE_PAGE (PAYLOAD)');
+      console.log(payload.item);
+      return { item: payload.item }
+    } else {
+      return await sanityClient.fetch(editorialArticlePageRequest, params).then(data => {
+        console.log('ARTICLE_PAGE (REQUESTED)');
+        console.log(data);
+        return { item: data };
+      });
+    }
+  },
+  mounted() {
+    if (!this.item) {
+      this.$nuxt.error({ statusCode: 404, message: 'This page could not be found' });
+    }
   },
   head() {
     if (this.item) {
       const date = this.item._updatedAt;
-      const { title, description, image } = this.item.seo || {};
-      return makeMeta({ title, description, image, date, fallback: this.$store.state.sanity.seo });
+      const { title, description, image } = this.item.seoMeta || {};
+      return makeMeta({ title, description, image, date, fallback: this.$store.state.sanity.seoMeta });
     }
   },
   methods: {
     titleToLowercase() {
       return this.item && this.item.title.toLowerCase();
     }
-  },
-  created() {
-    console.log(this.item);
   }
 }
 </script>
@@ -51,7 +62,7 @@ export default {
 .editorial-article {
   // margin-top: calc(-3 * var(--fm));
   .editorial-article-title-card-wrapper {
-    padding-top: calc(3 * var(--fm));
+    padding-top: calc(4 * var(--fm));
     background-color: var(--background-color, rgb(225, 225, 225));
     @include laptop-and-desktop {
       height: 100vh;

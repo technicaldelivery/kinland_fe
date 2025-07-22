@@ -1,11 +1,11 @@
 import dayjs  from 'dayjs';
 
 export const makeMeta = (payload) => {
-  const title = `${payload.title === 'Kinland' ? payload.title : `${payload.title} | Kinland`}` || payload.fallback.title || 'Kinland';
-  const description = payload.description || payload.fallback.description || 'We create craft-led spaces that draw upon the skills of artisans and makers. Through thoughtfully curated details, our projects offer an emotionally resonant take on the house and home that nurtures a relationship with place.';
-  const image = (payload.image || payload.fallback.image) + '?w=1200&h=627&fit=crop&crop=entropy';
+  const title = `${payload?.title === 'Kinland' ? payload?.title : `${payload?.title} | Kinland`}` || payload?.fallback?.title || 'Kinland';
+  const description = payload?.description || payload?.fallback?.description || 'We create craft-led spaces that draw upon the skills of artisans and makers. Through thoughtfully curated details, our projects offer an emotionally resonant take on the house and home that nurtures a relationship with place.';
+  const image = (payload?.image || payload?.fallback?.image) + '?w=1200&h=627&fit=crop&crop=entropy';
   let date = new Date;
-  if (payload.date) date = payload.date;
+  if (payload?.date) date = payload?.date;
   const dateFormat = dayjs(date).format('ddd, DD MMM YYYY HH:mm:ss [GMT]');
   return {
     title,
