@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link to="/portfolio" tag="button" aria-label="View portfolio" class="holding-page-splash">
+  <div class="holding-page-splash">
     <HoldingPageSplashVideo
       v-if="splash.video"
       :video="splash.video"
@@ -21,7 +21,7 @@
       </transition>
     </div>
     <button class="splash-click" id="splash-click" />
-  </nuxt-link>
+  </div>
 </template>
 
 <script>

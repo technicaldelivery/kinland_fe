@@ -13,7 +13,6 @@
     <!-- Project Portfolio Section -->
     <div class="section-heading">
       <h2>{{ holdingPage.section1.text[0].children[0].text }}</h2>
-      <NuxtLink to="/portfolio" class="view-all-link">{{ holdingPage.section1.ctaText }}</NuxtLink>
     </div>
 
     <!-- Project Grid -->
@@ -27,7 +26,7 @@
         <SanityImage
           v-if="project.image"
           :image="project.image"
-          :alt="project.title"
+          :alternativeText="project.title"
           :forceRatio="'66.666%'"
         />
         <ProjectTextCard 
@@ -42,12 +41,18 @@
       </NuxtLink>
     </section>
 
+    <div class="portfolio-cta">
+      <NuxtLink :to="`/${holdingPage.section1.relatedPage.slug}`" class="view-all-link">
+          {{ holdingPage.section1.ctaText }}
+      </NuxtLink>
+    </div>
+
     <!-- Lifestyle Banner Image -->
     <div class="lifestyle-banner">
       <SanityImage
         v-if="holdingPage.section1.image"
         :image="holdingPage.section1.image"
-        :alt="'Kinland lifestyle'"
+        :alternativeText="holdingPage.section1.image.alternativeText"
         :forceRatio="'50%'"
       />
       <!-- Placeholder when no image is available -->
@@ -60,14 +65,14 @@
     <div class="about-section">
       <h2 class="about-heading">{{ holdingPage.section2.text[0].children[0].text }}</h2>
       
-      <div class="about-content">
-        <div class="about-column">
-          <h3>OUR STORY</h3>
-          <p>The contrast in our work is in better our built environment through social engagement and slow, responsible design.</p>
-        </div>
-        <div class="about-column">
-          <h3>GIVING BACK</h3>
-          <p>In addition to promoting slow and responsible design, we work with charities and actively support our communities through design that prioritizes fragile ecosystems.</p>
+      <div v-if="holdingPage.section2.items" class="about-content">
+        <div 
+          v-for="(item, index) in holdingPage.section2.items" 
+          :key="item._key || index" 
+          class="about-column"
+        >
+          <h3>{{ item.text }}</h3>
+          <p>{{ item.blurb }}</p>
         </div>
       </div>
     </div>
@@ -77,7 +82,7 @@
       <SanityImage
         v-if="holdingPage.section2.image"
         :image="holdingPage.section2.image"
-        :alt="'Kinland interior design'"
+        :alternativeText="holdingPage.section2.image.alternativeText"
         :forceRatio="'50%'"
       />
       <!-- Placeholder when no image is available -->
@@ -88,7 +93,7 @@
     <!-- Enquiry Section -->
     <div class="enquiry-section">
       <div class="enquiry-section__left">
-        <h2>Have a project in mind? Get in touch to discuss your requirements. Our team specializes in bespoke design consultancy and development management for residential properties across London.</h2>
+        <h2>{{ siteSettings.enquiryDescription[0].children[0].text }}</h2>
       </div>
       
       <div class="enquiry-section__right">
@@ -129,9 +134,13 @@ import { makeMeta } from "~/utils/makeMeta.js";
 import { mapMutations } from 'vuex';
 
 export default {
-  asyncData({ $config }) {
+  async asyncData({ $config }) {
     const sanityClient = createSanityClient($config);
-    return sanityClient.fetch(holdingPageRequest).then(holdingPage => ({ holdingPage }));
+    return await sanityClient.fetch(holdingPageRequest).then(holdingPage => {
+      console.log('HOLDING_PAGE');
+      console.log(holdingPage);
+      return { holdingPage };
+    });
   },
   data() {
     return {
@@ -150,16 +159,23 @@ export default {
   },
   computed: {
     featuredProjects() {
-      if (!this.$store.state.sanity.projects) return [];
-      
-      // Sort projects by status priority: completed, in-progress, in-planning
-      return [...this.$store.state.sanity.projects]
-        .sort((a, b) => {
+      const allProjects = this.$store.state.sanity.projects || [];
+      const relatedRefs = this.holdingPage?.section1?.relatedProjects?.map(item => item._id) || [];
+
+      if (!relatedRefs.length) return [];
+
+      const projectMap = Object.fromEntries(allProjects.map(project => [project._id, project]));
+
+      return relatedRefs.length
+        ? relatedRefs.map(ref => projectMap[ref]).filter(Boolean)
+        : allProjects.sort((a, b) => {
           const order = { completed: 1, 'in-progress': 2, 'in-planning': 3 };
           return (a.status && b.status) ? 
             (order[a.status.slug] - order[b.status.slug]) : 0;
-        })
-        .slice(0, 3); // Only return the top 3 projects
+          }).slice(0, 3);
+    },
+    siteSettings() {
+      return this.$store.state.sanity.siteSettings;
     }
   },
   methods: {
@@ -222,35 +238,20 @@ section {
 
 .section-heading {
   padding: calc(2 * var(--fm)) var(--fm);
-  width: 45%;
+  width: 40%;
   // display: flex;
   // justify-content: space-between;
   // align-items: flex-end;
   
   h2 {
-    max-width: 70%;
     font-family: 'ABC Marist', serif;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     line-height: 1.3;
     font-weight: normal;
     margin-bottom: 0.6em;
   }
-  
-  .view-all-link {
-    text-decoration: none;
-    color: inherit;
-    font-size: 0.6rem;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 2px;
-    transition: opacity 0.3s ease;
-    
-    &:hover {
-      opacity: 0.6;
-    }
-  }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     width: 100%;
   }
 }
@@ -259,7 +260,7 @@ section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--fm);
-  padding: 0 var(--fm) calc(4 * var(--fm));
+  padding: 0 var(--fm) calc(2 * var(--fm));
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -283,6 +284,24 @@ section {
     }
   }
 
+}
+
+.portfolio-cta {
+  padding: 0 var(--fm) calc(4 * var(--fm));
+
+  .view-all-link {
+      text-decoration: none;
+      color: inherit;
+      font-size: 0.6rem;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+      transition: opacity 0.3s ease;
+      
+      &:hover {
+        opacity: 0.6;
+      }
+    }
 }
 
 .lifestyle-banner {
@@ -343,7 +362,7 @@ section {
   
   .about-heading {
     font-family: 'ABC Marist', serif;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     line-height: 1.3;
     font-weight: normal;
     // margin-bottom: calc(2 * var(--fm));
@@ -368,7 +387,7 @@ section {
       flex-direction: column;
       
       h3 {
-        font-size: 1rem;
+        font-size: 0.75rem;
         font-weight: normal;
         margin-bottom: 1rem;
       }
@@ -420,8 +439,8 @@ section {
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      gap: 0.75rem;
+      // margin-bottom: 1rem;
       
       @media (max-width: 768px) {
         grid-template-columns: 1fr;

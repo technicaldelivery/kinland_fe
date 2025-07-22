@@ -3,9 +3,7 @@
     <!-- Newsletter Section -->
     <div class="footer__newsletter">
       <div class="footer__newsletter-left">
-        <p class="footer__newsletter-text">
-          Stay informed about luxury design trends, property market insights, and Kinland's latest projects. Our curated newsletter delivers exclusive content, expert advice, and portfolio previews directly to your inbox.
-        </p>
+        <p class="footer__newsletter-text">{{ siteSettings.newsletterDescription[0].children[0].text }}</p>
         <form class="footer__form" @submit.prevent="handleSubscribe">
           <div class="footer__form-group">
             <input 
@@ -22,8 +20,16 @@
       </div>
       
       <div class="footer__social-links">
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="footer__social-link">LINKEDIN</a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="footer__social-link">INSTAGRAM</a>
+        <a
+          v-for="item in siteSettings.socialLinks"
+          :key="item._key"
+          :href="item.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer__social-link"
+        >
+          {{ item.text.toUpperCase() }}
+        </a>
       </div>
     </div>
 
@@ -31,12 +37,15 @@
     <div class="footer__nav">
       <div class="footer__copyright">© {{ new Date().getFullYear() }} KINLAND</div>
       <nav class="footer__links">
-        <NuxtLink to="/portfolio" class="footer__link">PORTFOLIO</NuxtLink>
-        <NuxtLink to="/studio" class="footer__link">STUDIO</NuxtLink>
-        <NuxtLink to="/journal" class="footer__link">JOURNAL</NuxtLink>
-        <NuxtLink to="/team" class="footer__link">TEAM</NuxtLink>
-        <NuxtLink to="/about" class="footer__link">ABOUT</NuxtLink>
-        <NuxtLink to="/contact" class="footer__link">CONTACT</NuxtLink>
+        <nuxt-link 
+          v-for="item in navigation?.header" 
+          :key="item._key"
+          :to="`/${item.slug}`"
+          class="footer__link"
+          :class="{ 'footer__link--active': $route.path === `/${item.slug}` }"
+        >
+          {{ item.title.toUpperCase() }}
+        </nuxt-link>
       </nav>
     </div>
   </footer>
@@ -47,6 +56,14 @@ export default {
   data() {
     return {
       email: ''
+    }
+  },
+  computed: {
+    navigation() {
+      return this.$store.state.sanity.navigation
+  },
+    siteSettings() {
+      return this.$store.state.sanity.siteSettings;
     }
   },
   methods: {
@@ -137,7 +154,7 @@ export default {
     background: transparent;
     color: black;
     font-family: 'ABC Marist', serif;
-    font-size: 0.85rem;
+    font-size: 0.65rem;
     cursor: pointer;
     transition: all 0.3s ease;
     letter-spacing: 0.05em;

@@ -16,6 +16,7 @@
       >
         <div
           v-for="(item, index) in slide.media"
+          :key="item._key"
           :class="[item.layoutOption,  {
             'left': index === 0 && slide.media.length > 1,
             'right': index === 1 && slide.media.length > 1,

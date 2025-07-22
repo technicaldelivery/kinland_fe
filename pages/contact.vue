@@ -3,21 +3,35 @@
     <div class="contact">
       <!-- Left Column -->
       <div class="contact__info">
-        <h1 class="contact__title">Contact Us</h1>
-        <p class="contact__description">
-          Have a project in mind? Get in touch to discuss your requirements. Our team specializes in bespoke design consultancy and development management for residential properties across London.
-        </p>
+        <h1 class="contact__title">{{ page.title }}</h1>
+        <p class="contact__description">{{ page.description }}</p>
 
-        <div class="contact__section">
-          <h2 class="contact__section-title">Office Address</h2>
-          <p class="contact__address">Nexus House DA14 5DA</p>
+        <div 
+          v-for="statement in page.statements" 
+          :key="statement._key" 
+          class="contact__section"
+        >
+          <h2 class="contact__section-title">{{ statement.title }}</h2>
+          <div v-for="block in statement.body" :key="block._key">
+            <p class="contact__address">
+              <span v-for="child in block.children" :key="child._key">{{ child.text }}</span>
+            </p>
+          </div>
         </div>
 
         <div class="contact__section">
           <h2 class="contact__section-title">Social</h2>
           <div class="contact__social">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="contact__social-link">Instagram</a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="contact__social-link">LinkedIn</a>
+            <a
+              v-for="item in siteSettings.socialLinks"
+              :key="item._key"
+              :href="item.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact__social-link"
+            >
+              {{ item.text }}
+            </a>
           </div>
         </div>
       </div>
@@ -130,11 +144,20 @@ export default {
   },
   async asyncData({ $config }) {
     const sanityClient = createSanityClient($config);
-    return await sanityClient.fetch(pageRequest, { page: 'contact' }).then(page => ({ page }));
+    return await sanityClient.fetch(pageRequest, { page: 'contact' }).then(page => {
+      console.log('CONTACT_PAGE');
+      console.log(page);
+      return { page };
+    });
   },
   head() {
     const { title, description, image } = this.page.seoMeta || {};
     return makeMeta({ title, description, image, fallback: this.$store.state.sanity.seoMeta });
+  },
+  computed: {
+    siteSettings() {
+      return this.$store.state.sanity.siteSettings;
+    }
   },
   methods: {
     async handleSubmit() {
@@ -180,7 +203,12 @@ export default {
   margin: 0 auto;
 
   &__info {
-    padding-top: 2rem;
+    max-width: 70%;
+    // padding-top: 2rem;
+
+    @include phone-and-tablet {
+      max-width: 100%;
+    }
   }
 
   &__title {
@@ -192,7 +220,7 @@ export default {
   &__description {
     font-size: 1rem;
     line-height: 1.6;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
 
   &__section {
@@ -320,6 +348,8 @@ export default {
     font-family: 'ABC Marist', serif;
     font-weight: 400;
     font-style: normal;
+    display: inline-block;
+    width: 190px;
 
     &:hover {
       opacity: 0.8;

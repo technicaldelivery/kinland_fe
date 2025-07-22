@@ -3,7 +3,7 @@
     <SanityImage
       :key="image._key"
       :image="image"
-      :alt="image.alternativeText"
+      :alternativeText="image.alternativeText"
       :transparent="true"
       :objectFit="`contain`"
       :preload="true"

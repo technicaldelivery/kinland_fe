@@ -10,32 +10,15 @@ export const holdingPageRequest = `*[_id == "holdingPage" && !(_id in path('draf
       }
     }
   },
-  "lifestyleBanner": lifestyleBanner {
+  "section1": section1 {
     ...,
-    "metadata": asset->metadata
+    "relatedProjects": relatedProjects[] {
+      "_id": @->_id
   },
-  "secondLifestyleBanner": secondLifestyleBanner {
-    ...,
-    "metadata": asset->metadata
-  },
-  "slides": slides[] {
-    ...,
-    "media": media[] {
-      _type == 'image' => {
+    "relatedPage": relatedPage {
         ...,
-        "metadata": asset->metadata
+      "slug": @->slug.current
       },
-      _type == 'video' => {
-        ...,
-        "video": video {
-          ...,
-          asset->{
-            ...,
-            "url": "https://stream.mux.com/" + playbackId
-          }
-        }
-      },
-    }
   }
 }`
 
@@ -246,4 +229,8 @@ export const pageNotFoundRequest = `*[_id == "settings" && !(_id in path('drafts
 export const seoRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0].seoMeta {
   ...,
   "image": image.asset->url
+}`
+
+export const settingsRequest = `*[_id == "settings" && !(_id in path('drafts.**'))][0] {
+  ...
 }`

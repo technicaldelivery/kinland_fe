@@ -3,6 +3,7 @@
     <ul class="ts-s">
       <li
         v-for="(slide, index) in slides"
+        :key="slide._key"
         class="tablet-and-laptop-and-desktop"
         :class="{ active: index === currentSlide }"
         @click="$emit('updateCurrentSlide', index)"

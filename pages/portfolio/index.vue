@@ -1,8 +1,8 @@
 <template>
   <div>
     <PageHeader
-      title="Portfolio"
-      description="Explore Kinland Studio's portfolio of high-end residential design and development projects. View our exclusive collection of bespoke interiors, architectural transformations, and luxury property developments across London and beyond. Each project showcases our expertise in spatial design, custom furnishings, and premium property management."
+      :title="page.titleOverride || page.title"
+      :description="page.description"
     />
     
     <!-- Filter Section -->
@@ -50,7 +50,7 @@
         <SanityImage
           v-if="project.image"
           :image="project.image"
-          :alt="project.title"
+          :alternativeText="project.title"
           :forceRatio="'66.666%'"
         />
         <ProjectTextCard 
@@ -85,7 +85,11 @@ export default {
   async asyncData({ store, $config }) {
     const sanityClient = createSanityClient($config);
     if (!store.state.sanity.projects) await store.dispatch('sanity/PROJECTS_CALL', sanityClient);
-    return await sanityClient.fetch(pageRequest, { page: 'portfolio' }).then(page => ({ page }));
+    return await sanityClient.fetch(pageRequest, { page: 'portfolio' }).then(page => {
+      console.log('PORTFOLIO_PAGE');
+      console.log(page);
+      return { page };
+    });
   },
   head() {
     const { title, description, image } = this.page.seoMeta || {};
@@ -162,7 +166,7 @@ export default {
 }
 
 .portfolio-projects {
-  margin: calc(4 * var(--fm)) var(--fm) calc(2 * var(--fm)) var(--fm);
+  margin: calc(2 * var(--fm)) var(--fm) calc(2 * var(--fm)) var(--fm);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: var(--fm);

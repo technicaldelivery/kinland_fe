@@ -16,7 +16,6 @@
       />
     </section>
   </div>
-  <Dynamic404 v-else />
 </template>
 
 <script>
@@ -25,10 +24,24 @@ import { editorialArticlePageRequest } from "~/sanityRequests.js";
 import { makeMeta } from "~/utils/makeMeta.js";
 
 export default {
-  asyncData({ params, payload, $config }) {
+  async asyncData({ params, payload, $config }) {
     const sanityClient = createSanityClient($config);
-    if (payload) return { item: payload.item }
-    else return sanityClient.fetch(editorialArticlePageRequest, params).then(data => ({ item: data }))
+    if (payload) {
+      console.log('ARTICLE_PAGE (PAYLOAD)');
+      console.log(payload.item);
+      return { item: payload.item }
+    } else {
+      return await sanityClient.fetch(editorialArticlePageRequest, params).then(data => {
+        console.log('ARTICLE_PAGE (REQUESTED)');
+        console.log(data);
+        return { item: data };
+      });
+    }
+  },
+  mounted() {
+    if (!this.item) {
+      this.$nuxt.error({ statusCode: 404, message: 'This page could not be found' });
+    }
   },
   head() {
     if (this.item) {
@@ -41,9 +54,6 @@ export default {
     titleToLowercase() {
       return this.item && this.item.title.toLowerCase();
     }
-  },
-  created() {
-    console.log(this.item);
   }
 }
 </script>

@@ -27,6 +27,9 @@ export const mutations = {
   SET_SEO: (state, seoMeta) => {
     Vue.set(state, 'seoMeta', seoMeta)
   },
+  SET_SETTINGS: (state, siteSettings) => {
+    Vue.set(state, 'siteSettings', siteSettings)
+  },
 }
 
 export const actions = {
@@ -51,5 +54,11 @@ export const actions = {
   async SEO_CALL ({ commit }, sanityClient) {
     const seoMeta = await sanityClient.fetch(requests.seoRequest)
     commit('SET_SEO', seoMeta)
+  },
+  async SETTINGS_CALL ({ commit }, sanityClient) {
+    console.log('SETTINGS_CALL');
+    const siteSettings = await sanityClient.fetch(requests.settingsRequest)
+    console.log(siteSettings);
+    commit('SET_SETTINGS', siteSettings)
   },
 }

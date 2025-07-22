@@ -10,7 +10,7 @@
       <SanityImage
         v-if="page.featuredImage"
         :image="page.featuredImage"
-        :alt="page.title || 'Development Management'"
+        :alternativeText="page.title || 'Development Management'"
         :forceRatio="'50%'"
       />
       <div v-else class="lifestyle-banner-placeholder"></div>
@@ -37,7 +37,7 @@
       <SanityImage
         v-if="page.services && page.services.image"
         :image="page.services.image"
-        :alt="'Kinland development process'"
+        :alternativeText="page.services.image.alternativeText"
         :forceRatio="'50%'"
       />
       <div v-else class="lifestyle-banner-placeholder"></div>
@@ -46,7 +46,7 @@
     <!-- Enquiry Section -->
     <div class="enquiry-section">
       <div class="enquiry-section__left">
-        <h2>Have a project in mind? Get in touch to discuss your requirements. Our team specializes in bespoke design consultancy and development management for residential properties across London.</h2>
+        <h2>{{ siteSettings.enquiryDescription[0].children[0].text }}</h2>
       </div>
       
       <div class="enquiry-section__right">
@@ -102,11 +102,20 @@ export default {
   },
   async asyncData({ $config }) {
     const sanityClient = createSanityClient($config);
-    return await sanityClient.fetch(pageRequest, { page: 'studio' }).then(page => ({ page }));
+    return await sanityClient.fetch(pageRequest, { page: 'studio' }).then(page => {
+      console.log('STUDIO_PAGE');
+      console.log(page);
+      return { page };
+    });
   },
   head() {
     const { title, description, image } = this.page.seoMeta || {};
     return makeMeta({ title, description, image, fallback: this.$store.state.sanity.seoMeta });
+  },
+  computed: {
+    siteSettings() {
+      return this.$store.state.sanity.siteSettings;
+    }
   },
   methods: {
     async handleEnquirySubmit() {

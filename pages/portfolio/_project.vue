@@ -25,7 +25,7 @@
           <SanityImage
             v-if="item.image && item.image.asset"
             :image="item.image"
-            :alt="item.title"
+            :alternativeText="item.title"
             :forceRatio="'66.666%'"
           />
           <div v-else>No featured image available</div>
@@ -59,7 +59,7 @@
               >
                 <SanityImage
                   :image="portraitImg"
-                  :alt="item.title"
+                  :alternativeText="item.title"
                   forceRatio="150%"
                 />
               </div>
@@ -74,7 +74,7 @@
             >
               <SanityImage
                 :image="image.image"
-                :alt="item.title"
+                :alternativeText="item.title"
                 forceRatio="66.666%"
               />
             </div>
@@ -153,7 +153,6 @@
 
     <Footer />
   </div>
-  <Dynamic404 v-else />
 </template>
 
 <script>
@@ -172,13 +171,25 @@ export default {
     const sanityClient = createSanityClient($config);
     
     // Ensure projects are loaded in the store
-    if (!store.state.sanity.projects) {
-      await store.dispatch('sanity/PROJECTS_CALL', sanityClient);
-    }
+    if (!store.state.sanity.projects) await store.dispatch('sanity/PROJECTS_CALL', sanityClient);
 
     // Get the current project data
-    if (payload) return { item: payload.item }
-    else return sanityClient.fetch(projectPageRequest, params).then(data => ({ item: data }))
+    if (payload) {
+      console.log('PROJECT_PAGE (PAYLOAD)');
+      console.log(payload.item);
+      return { item: payload.item }
+    } else {
+      return await sanityClient.fetch(projectPageRequest, params).then(data => {
+        console.log('PROJECT_PAGE (REQUESTED)');
+        console.log(data);
+        return { item: data };
+      });
+    }
+  },
+  mounted() {
+    if (!this.item) {
+      this.$nuxt.error({ statusCode: 404, message: 'This page could not be found' });
+    }
   },
   data() {
     return {

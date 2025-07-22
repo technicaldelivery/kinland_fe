@@ -1,8 +1,8 @@
 <template>
   <div>
     <PageHeader
-      title="Journal"
-      description="Discover insights, trends, and stories from the world of luxury residential design and development. Our journal features expert perspectives on architecture, interior design, property market analysis, and behind-the-scenes looks at our latest projects."
+      :title="page.titleOverride || page.title"
+      :description="page.description"
     />
     <section class="journal-articles">
       <NuxtLink 
@@ -14,7 +14,7 @@
         <SanityImage
           v-if="article.coverImages && article.coverImages.length"
           :image="article.coverImages[0]"
-          :alt="article.title"
+          :alternativeText="article.title"
           :forceRatio="'66.666%'"
         />
         <div v-else class="journal-article-placeholder"></div>
@@ -37,7 +37,11 @@ export default {
   async asyncData({ store, $config }) {
     const sanityClient = createSanityClient($config);
     if (!store.state.sanity.editorialArticles) await store.dispatch('sanity/EDITORIALARTICLES_CALL', sanityClient);
-    return await sanityClient.fetch(pageRequest, { page: 'journal' }).then(page => ({ page }));
+    return await sanityClient.fetch(pageRequest, { page: 'journal' }).then(page => {
+      console.log('JOURNAL_PAGE');
+      console.log(page);
+      return { page };
+    });
   },
   head() {
     const { title, description, image } = this.page.seoMeta || {};
