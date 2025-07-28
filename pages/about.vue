@@ -1,20 +1,21 @@
 <template>
   <div class="about-page">
     <!-- Comment out the existing layout -->
-    <!-- <PageWithStatementsLayout
+    <PageWithStatementsLayout
       v-if="page.statements && page.statements.length"
       :statements="page.statements"
       :colorScheme="page.colorScheme"
       :opposite="true"
-    /> -->
+    />
 
     <!-- New 2-column layout -->
+    <!-- 
     <div class="about-container">
       <div class="about-content">
         <div class="about-text">
-          <!-- <div class="about-header">
+          <div class="about-header">
             <h1>KINLAND</h1>
-          </div> -->
+          </div>
           
           <div class="about-body">
             <p class="first-para">At Kinland, we believe good design shapes how we live. It can bring calm, invite light, and create spaces that feel connected to their place.</p>
@@ -41,13 +42,13 @@
         </div>
         
         <div class="about-image">
-          <!-- Placeholder for image - will be replaced with actual image -->
           <div class="image-placeholder">
             <img src="https://cdn.sanity.io/images/z9qxiptb/staging/a39840da976ad5d132dcbe22e53fcbc61fbb9e0d-1728x1140.jpg?w=2500&auto=format&q=90" alt="Kinland architectural detail" />
           </div>
         </div>
       </div>
     </div>
+    -->
 
     <Footer 
       :contact="true"

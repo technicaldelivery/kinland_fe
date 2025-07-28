@@ -189,11 +189,15 @@ export default {
       padding: 2rem;
     }
   }
+
+  @include phone {
+    margin-bottom: calc(1 * var(--fm));
+  }
 }
 
 /* About section styling */
 .about-section {
-  padding: calc(2 * var(--fm)) var(--fm);
+  padding: 0 var(--fm) calc(2 * var(--fm));
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: calc(2 * var(--fm));
@@ -230,6 +234,16 @@ export default {
     p {
       font-size: 1rem;
       line-height: 1.5;
+    }
+  }
+
+  @include phone {
+    grid-template-columns: 1fr;
+    padding: 0 var(--fm) calc(2 * var(--fm));
+
+    .about-heading {
+      max-width: 100%;
+      margin-bottom: 0;
     }
   }
 }
@@ -304,6 +318,8 @@ export default {
   
   @include phone {
     grid-template-columns: 1fr;
+
+    margin-bottom: 0rem;
   }
   
   &__left {
