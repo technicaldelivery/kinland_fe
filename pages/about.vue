@@ -4,6 +4,7 @@
     <PageWithStatementsLayout
       v-if="page.statements && page.statements.length"
       :statements="page.statements"
+      :featuredImage="page.featuredImage"
       :colorScheme="page.colorScheme"
       :opposite="true"
     />
