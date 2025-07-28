@@ -45,10 +45,10 @@ export default {
   }
 
   @media (max-width: 768px) {
-    padding: 6rem 0 3rem;
+    padding: 6rem var(--fm) calc(2 * var(--fm));
 
     &__content {
-      padding: 0 1rem;
+      margin: 0;
     }
 
     &__title {

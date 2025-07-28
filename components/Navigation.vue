@@ -438,7 +438,7 @@ export default {
   }
 
   @media (max-width: 768px) {
-    padding: 5px 15px;
+    padding: 2rem var(--fm) calc(2 * var(--fm));
 
     &__overlay-content {
       padding: 4.5rem 1rem 1rem;

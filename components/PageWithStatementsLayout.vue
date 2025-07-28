@@ -48,6 +48,60 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.statement-text {
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    * + h2 {
+      padding-top: 1rem;
+    }
+
+    p, ul, ol {
+      font-size: 1.2rem!important;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      color: #666;
+    }
+
+    p + ul {
+      margin-top: -0.7rem;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 25px;
+    }
+
+    ul > li {
+      padding-left: 5px;
+    }
+
+    ol {
+      list-style: decimal;
+      padding-left: 35px;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+      list-style: inherit;
+    }
+
+    em {
+      color: #999;
+      font-size: 0.9rem;
+    }
+  }
+
 .statements-wrapper {
   padding: calc(4 * var(--fm)) var(--fm);
   max-width: 1400px;
@@ -57,9 +111,8 @@ export default {
   @include phone {
     padding: calc(2 * var(--fm)) var(--fm);
   }
-}
 
-.statements {
+  .statements {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -79,135 +132,6 @@ export default {
       padding-top: calc(2 * var(--fm));
       gap: calc(2 * var(--fm));
       min-height: auto;
-    }
-  }
-  
-  .statements-text {
-    @include typography-medium;
-    
-    .statement {
-      @include typography-medium;
-      max-width: 32em;
-      margin-bottom: calc(1 * var(--fm));
-      
-      @include phone {
-        max-width: 100%;
-      }
-      
-      .statement-title {
-        margin-bottom: calc(0.25 * var(--fm));
-        
-        h4 {
-          @include typography-medium;
-          font-weight: 400;
-          letter-spacing: 0.05em;
-          margin: 0;
-          color: #2C2C2C;
-        }
-      }
-    }
-  }
-  
-  .statement-text {
-    > * {
-      margin-bottom: 1.3rem;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-    
-    p {
-      margin-bottom: calc(1 * var(--fm));
-      line-height: 1.6;
-      color: #2C2C2C;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-    
-    // Heading styles
-    h1, h2, h3, h4, h5, h6 {
-      @include typography-medium;
-      font-weight: 400;
-      letter-spacing: 0.05em;
-      margin: calc(1.5 * var(--fm)) 0 calc(0.5 * var(--fm)) 0;
-      color: #2C2C2C;
-      
-      &:first-child {
-        margin-top: 0;
-      }
-    }
-    
-    h1 {
-      @include typography-extra-large;
-    }
-    
-    h2 {
-      @include typography-large;
-    }
-    
-    h3, h4, h5, h6 {
-      @include typography-medium;
-    }
-    
-    // List styles
-    ul, ol {
-      margin: calc(1 * var(--fm)) 0;
-      padding-left: calc(1.5 * var(--fm));
-      color: #2C2C2C;
-      
-      li {
-        margin-bottom: calc(0.5 * var(--fm));
-        line-height: 1.6;
-      }
-    }
-    
-    ul {
-      list-style-type: disc;
-    }
-    
-    ol {
-      list-style-type: decimal;
-    }
-    
-    // Blockquote styles
-    blockquote {
-      margin: calc(1.5 * var(--fm)) 0;
-      padding-left: calc(1.5 * var(--fm));
-      border-left: 2px solid #2C2C2C;
-      font-style: italic;
-      color: #2C2C2C;
-    }
-    
-    // Link styles
-    a {
-      color: #2C2C2C;
-      text-decoration: underline;
-      text-decoration-thickness: 0.08em;
-      text-underline-offset: 0.175em;
-      
-      &:hover {
-        text-decoration: none;
-      }
-    }
-    
-    // Inline text styles
-    strong, b {
-      font-weight: 600;
-    }
-    
-    em, i {
-      font-style: italic;
-    }
-    
-    code {
-      background-color: rgba(44, 44, 44, 0.1);
-      padding: 0.1em 0.3em;
-      border-radius: 3px;
-      font-family: monospace;
-      font-size: 0.9em;
     }
   }
   
@@ -235,5 +159,61 @@ export default {
       }
     }
   }
+
+  // .statement-text {
+  //   h1 {
+  //     font-size: 2.5rem;
+  //     margin-bottom: 2rem;
+  //     text-align: center;
+  //   }
+
+  //   h2 {
+  //     font-size: 1.5rem;
+  //     margin-bottom: 1rem;
+  //     color: #333;
+  //   }
+
+  //   * + h2 {
+  //     padding-top: 1rem;
+  //   }
+
+  //   p, ul, ol {
+  //     font-size: 1.2rem!important;
+  //     line-height: 1.6;
+  //     margin-bottom: 1rem;
+  //     color: #666;
+  //   }
+
+  //   p + ul {
+  //     margin-top: -0.7rem;
+  //   }
+
+  //   ul {
+  //     list-style: disc;
+  //     padding-left: 25px;
+  //   }
+
+  //   ul > li {
+  //     padding-left: 5px;
+  //   }
+
+  //   ol {
+  //     list-style: decimal;
+  //     padding-left: 35px;
+  //   }
+
+  //   li {
+  //     margin-bottom: 0.5rem;
+  //     list-style: inherit;
+  //   }
+
+  //   em {
+  //     color: #999;
+  //     font-size: 0.9rem;
+  //   }
+  // }
 }
+}
+
+
 </style>
