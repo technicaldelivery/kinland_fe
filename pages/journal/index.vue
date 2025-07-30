@@ -57,13 +57,13 @@ export default {
 
 <style lang="scss" scoped>
 .journal-articles {
-  margin: calc(4 * var(--fm)) var(--fm) calc(2 * var(--fm)) var(--fm);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: var(--fm);
   grid-row-gap: calc(2 * var(--fm));
+  padding: 0 var(--fm) calc(2 * var(--fm));
+  
   @include phone {
-    padding: 0 1rem 3rem;
     grid-template-columns: 1fr;
   }
 }

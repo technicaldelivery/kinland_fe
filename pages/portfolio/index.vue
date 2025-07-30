@@ -115,7 +115,7 @@ export default {
 
 <style lang="scss" scoped>
 .portfolio-filters {
-  margin: calc(2 * var(--fm)) var(--fm) 0;
+  padding: 0 var(--fm) calc(2 * var(--fm));
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -136,7 +136,7 @@ export default {
     background: none;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.35rem 0.75rem;
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -157,22 +157,21 @@ export default {
   @include phone {
     flex-direction: column;
     align-items: flex-start;
-    margin: calc(2 * var(--fm)) 1rem 0;
 
     &__buttons {
       flex-wrap: wrap;
     }
+
   }
 }
 
 .portfolio-projects {
-  margin: calc(2 * var(--fm)) var(--fm) calc(2 * var(--fm)) var(--fm);
+  padding: 0 var(--fm) calc(2 * var(--fm));
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: var(--fm);
   grid-row-gap: calc(2 * var(--fm));
   @include phone {
-    padding: 0 1rem 3rem;
     grid-template-columns: 1fr;
   }
 }
