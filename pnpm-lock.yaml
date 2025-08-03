@@ -16,7 +16,7 @@ importers:
         version: 2.17.2(vue@2.7.16)
       '@nuxt/builder':
         specifier: 2.17.2
-        version: 2.17.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
+        version: 2.17.2(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
       '@nuxt/components':
         specifier: 2.2.1
         version: 2.2.1(consola@3.4.2)
@@ -127,7 +127,7 @@ importers:
         version: 1.4.1
       nuxt:
         specifier: ^2.15.4
-        version: 2.18.1(buffer@6.0.3)(consola@3.4.2)(encoding@0.1.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
+        version: 2.18.1(buffer@6.0.3)(consola@3.4.2)(encoding@0.1.13)(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
       nuxt-dayjs-module:
         specifier: ^1.1.2
         version: 1.1.2
@@ -143,6 +143,9 @@ importers:
       portal-vue:
         specifier: ^2.1.7
         version: 2.1.7(vue@2.7.16)
+      prettier:
+        specifier: ^3.6.2
+        version: 3.6.2
       punycode:
         specifier: ^2.3.1
         version: 2.3.1
@@ -11061,12 +11064,12 @@ snapshots:
       - supports-color
       - vue
 
-  '@nuxt/builder@2.17.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)':
+  '@nuxt/builder@2.17.2(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)':
     dependencies:
       '@nuxt/devalue': 2.0.2
       '@nuxt/utils': 2.17.2
       '@nuxt/vue-app': 2.17.2
-      '@nuxt/webpack': 2.17.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
+      '@nuxt/webpack': 2.17.2(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
       chalk: 4.1.2
       chokidar: 3.6.0
       consola: 3.4.2
@@ -11142,12 +11145,12 @@ snapshots:
       - webpack-command
       - whiskers
 
-  '@nuxt/builder@2.18.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)':
+  '@nuxt/builder@2.18.1(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)':
     dependencies:
       '@nuxt/devalue': 2.0.2
       '@nuxt/utils': 2.18.1
       '@nuxt/vue-app': 2.18.1
-      '@nuxt/webpack': 2.18.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
+      '@nuxt/webpack': 2.18.1(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
       chalk: 4.1.2
       chokidar: 3.6.0
       consola: 3.4.2
@@ -11543,7 +11546,7 @@ snapshots:
       vue-meta: 2.4.0
       vue-server-renderer: 2.7.16
 
-  '@nuxt/webpack@2.17.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)':
+  '@nuxt/webpack@2.17.2(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)':
     dependencies:
       '@babel/core': 7.28.0
       '@nuxt/babel-preset-app': 2.17.2(vue@2.7.16)
@@ -11582,7 +11585,7 @@ snapshots:
       ufo: 1.6.1
       upath: 2.0.1
       url-loader: 4.1.1(file-loader@6.2.0(webpack@4.47.0))(webpack@4.47.0)
-      vue-loader: 15.11.1(cache-loader@4.1.0(webpack@4.47.0))(css-loader@5.2.7(webpack@4.47.0))(lodash@4.17.21)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue-template-compiler@2.7.16)(webpack@4.47.0)
+      vue-loader: 15.11.1(cache-loader@4.1.0(webpack@4.47.0))(css-loader@5.2.7(webpack@4.47.0))(lodash@4.17.21)(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue-template-compiler@2.7.16)(webpack@4.47.0)
       vue-style-loader: 4.1.3
       vue-template-compiler: 2.7.16
       watchpack: 2.4.4
@@ -11656,7 +11659,7 @@ snapshots:
       - webpack-command
       - whiskers
 
-  '@nuxt/webpack@2.18.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)':
+  '@nuxt/webpack@2.18.1(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)':
     dependencies:
       '@babel/core': 7.28.0
       '@nuxt/babel-preset-app': 2.18.1(vue@2.7.16)
@@ -11696,7 +11699,7 @@ snapshots:
       ufo: 1.6.1
       upath: 2.0.1
       url-loader: 4.1.1(file-loader@6.2.0(webpack@4.47.0))(webpack@4.47.0)
-      vue-loader: 15.11.1(cache-loader@4.1.0(webpack@4.47.0))(css-loader@5.2.7(webpack@4.47.0))(lodash@4.17.21)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue-template-compiler@2.7.16)(webpack@4.47.0)
+      vue-loader: 15.11.1(cache-loader@4.1.0(webpack@4.47.0))(css-loader@5.2.7(webpack@4.47.0))(lodash@4.17.21)(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue-template-compiler@2.7.16)(webpack@4.47.0)
       vue-style-loader: 4.1.3
       vue-template-compiler: 2.7.16
       watchpack: 2.4.4
@@ -17172,10 +17175,10 @@ snapshots:
     dependencies:
       webfontloader: 1.6.28
 
-  nuxt@2.18.1(buffer@6.0.3)(consola@3.4.2)(encoding@0.1.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16):
+  nuxt@2.18.1(buffer@6.0.3)(consola@3.4.2)(encoding@0.1.13)(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16):
     dependencies:
       '@nuxt/babel-preset-app': 2.18.1(vue@2.7.16)
-      '@nuxt/builder': 2.18.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
+      '@nuxt/builder': 2.18.1(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
       '@nuxt/cli': 2.18.1(buffer@6.0.3)
       '@nuxt/components': 2.2.1(consola@3.4.2)
       '@nuxt/config': 2.18.1
@@ -17188,7 +17191,7 @@ snapshots:
       '@nuxt/utils': 2.18.1
       '@nuxt/vue-app': 2.18.1
       '@nuxt/vue-renderer': 2.18.1
-      '@nuxt/webpack': 2.18.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
+      '@nuxt/webpack': 2.18.1(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(vue@2.7.16)
     transitivePeerDependencies:
       - '@vue/compiler-sfc'
       - arc-templates
@@ -20195,7 +20198,7 @@ snapshots:
 
   vue-lazyload@1.3.5: {}
 
-  vue-loader@15.11.1(cache-loader@4.1.0(webpack@4.47.0))(css-loader@5.2.7(webpack@4.47.0))(lodash@4.17.21)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue-template-compiler@2.7.16)(webpack@4.47.0):
+  vue-loader@15.11.1(cache-loader@4.1.0(webpack@4.47.0))(css-loader@5.2.7(webpack@4.47.0))(lodash@4.17.21)(prettier@3.6.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(vue-template-compiler@2.7.16)(webpack@4.47.0):
     dependencies:
       '@vue/component-compiler-utils': 3.3.0(lodash@4.17.21)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       css-loader: 5.2.7(webpack@4.47.0)
@@ -20206,6 +20209,7 @@ snapshots:
       webpack: 4.47.0
     optionalDependencies:
       cache-loader: 4.1.0(webpack@4.47.0)
+      prettier: 3.6.2
       vue-template-compiler: 2.7.16
     transitivePeerDependencies:
       - arc-templates
