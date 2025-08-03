@@ -179,6 +179,9 @@ importers:
       sanity-blocks-vue-component:
         specifier: ^0.1.0
         version: 0.1.0
+      scheduler:
+        specifier: ^0.26.0
+        version: 0.26.0
       smartquotes:
         specifier: ^2.3.2
         version: 2.3.2
