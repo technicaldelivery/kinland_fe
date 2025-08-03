@@ -101,6 +101,9 @@ importers:
       domelementtype:
         specifier: ^2.3.0
         version: 2.3.0
+      domhandler:
+        specifier: ^5.0.3
+        version: 5.0.3
       encoding:
         specifier: ^0.1.13
         version: 0.1.13
