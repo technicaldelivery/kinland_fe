@@ -182,6 +182,9 @@ importers:
       scheduler:
         specifier: ^0.26.0
         version: 0.26.0
+      selderee:
+        specifier: ^0.11.0
+        version: 0.11.0
       smartquotes:
         specifier: ^2.3.2
         version: 2.3.2
