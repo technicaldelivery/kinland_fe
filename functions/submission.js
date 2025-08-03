@@ -31,22 +31,22 @@ exports.handler = async (event) => {
   if (airtableRes.ok) {
     try {
       const resend = new Resend(process.env.RESEND_API_KEY);
+      const isProd = process.env.SANITY_DATASET === 'production';
 
       const emailData = {
         from: 'noreply@resend.a2dev.space',
         replyTo: 'info@thisiskinland.com',
-        // to: [
-        //   'katia@thisiskinland.com',
-        //   'nick@thisiskinland.com',
-        //   'alex@thisiskinland.com',
-        // ],
-        to: [
-          'yusri@technicaldelivery.co',
-          'yusrimathews@gmail.com',
+        to: isProd ? [
+          'katia@thisiskinland.com',
+          'nick@thisiskinland.com',
+          'alex@thisiskinland.com',
+        ] : [
+          'katia@thisiskinland.com',
         ],
-        subject: 'New Form Submission',
+        bcc: ['yusri@technicaldelivery.co'],
+        subject: `New Form Submission${isProd ? '' : ' (Staging)'}`,
         html: `
-          <h2>New Form Submission</h2>
+          <h2>New Form Submission${isProd ? '' : ' (Staging)'}</h2>
           <p><strong>Name:</strong> ${body.firstName} ${body.lastName}</p>
           <p><strong>Email:</strong> ${body.email}</p>
           <p><strong>Phone:</strong> ${body.phone}</p>
