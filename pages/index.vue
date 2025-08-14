@@ -90,6 +90,9 @@
       </div>
     </div>
 
+    <!-- Featured Logos -->
+    <FeaturedLogos />
+
     <!-- Enquiry Section -->
     <div class="enquiry-section">
       <div class="enquiry-section__left">
