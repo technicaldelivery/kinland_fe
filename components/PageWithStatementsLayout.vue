@@ -28,13 +28,65 @@
         </div>
         
         <div class="statements-image">
-          <SanityImage
+          <!-- <SanityImage
               v-if="featuredImage"
               :image="featuredImage"
               :alternativeText="featuredImage.alternativeText"
               :forceRatio="'100%'"
               :objectFit="'cover'"
-          />
+          /> -->
+
+          <div v-if="featuredImages && featuredImages.length > 0" class="image-slider">
+            <div 
+              class="slider-container" 
+              :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+              @touchstart="handleTouchStart"
+              @touchmove="handleTouchMove"
+              @touchend="handleTouchEnd"
+              @mousedown="handleMouseDown"
+              @mousemove="handleMouseMove"
+              @mouseup="handleMouseUp"
+              @mouseleave="handleMouseUp"
+            >
+              <div 
+                v-for="(image, index) in featuredImages" 
+                :key="index"
+                class="slide"
+              >
+                <SanityImage
+                  :image="image"
+                  :alternativeText="image.alternativeText"
+                  :forceRatio="'100%'"
+                  :objectFit="'cover'"
+                />
+              </div>
+            </div>
+            <div v-if="featuredImages.length > 1" class="slider-controls">
+              <button 
+                @click="prevSlide" 
+                class="slider-btn prev-btn"
+                :disabled="currentSlide === 0"
+              >
+                <svg fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" xmlns:x="&amp;ns_extend;" xmlns:i="&amp;ns_ai;" xmlns:graph="&amp;ns_graphs;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" viewBox="0 0 42 42" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fill-rule="evenodd" points="31,38.32 13.391,21 31,3.68 28.279,1 8,21.01 28.279,41 "></polygon> </g></svg>
+              </button>
+              <button 
+                @click="nextSlide" 
+                class="slider-btn next-btn"
+                :disabled="currentSlide === featuredImages.length - 1"
+              >
+                <svg fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" xmlns:x="&amp;ns_extend;" xmlns:i="&amp;ns_ai;" xmlns:graph="&amp;ns_graphs;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" viewBox="0 0 42 42" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fill-rule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "></polygon></g></svg>
+              </button>
+            </div>
+            <div v-if="featuredImages.length > 1" class="slider-dots">
+              <button
+                v-for="(image, index) in featuredImages"
+                :key="index"
+                @click="goToSlide(index)"
+                class="dot"
+                :class="{ active: currentSlide === index }"
+              ></button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -47,8 +99,89 @@ export default {
     'statements',
     'colorScheme',
     'opposite',
-    'featuredImage'
-  ]
+    'featuredImage',
+    'featuredImages',
+  ],
+  data() {
+    return {
+      currentSlide: 0,
+      touchStartX: 0,
+      touchEndX: 0,
+      minSwipeDistance: 20,
+      isDragging: false,
+      dragStartX: 0,
+      dragEndX: 0
+    }
+  },
+  methods: {
+    nextSlide() {
+      if (this.currentSlide < this.featuredImages.length - 1) {
+        this.currentSlide++
+      }
+    },
+    prevSlide() {
+      if (this.currentSlide > 0) {
+        this.currentSlide--
+      }
+    },
+    goToSlide(index) {
+      this.currentSlide = index
+    },
+    handleTouchStart(event) {
+      this.touchStartX = event.touches[0].clientX
+      event.preventDefault()
+    },
+    handleTouchMove(event) {
+      this.touchEndX = event.touches[0].clientX
+      event.preventDefault()
+    },
+    handleTouchEnd() {
+      const swipeDistance = this.touchStartX - this.touchEndX
+      
+      if (Math.abs(swipeDistance) > this.minSwipeDistance) {
+        if (swipeDistance > 0) {
+          // Swiped left, go to next slide
+          this.nextSlide()
+        } else {
+          // Swiped right, go to previous slide
+          this.prevSlide()
+        }
+      }
+      
+      // Reset values
+      this.touchStartX = 0
+      this.touchEndX = 0
+    },
+    handleMouseDown(event) {
+      this.isDragging = true
+      this.dragStartX = event.clientX
+      event.preventDefault()
+    },
+    handleMouseMove(event) {
+      if (!this.isDragging) return
+      this.dragEndX = event.clientX
+    },
+    handleMouseUp() {
+      if (!this.isDragging) return
+      
+      const dragDistance = this.dragStartX - this.dragEndX
+      
+      if (Math.abs(dragDistance) > this.minSwipeDistance) {
+        if (dragDistance > 0) {
+          // Dragged left, go to next slide
+          this.nextSlide()
+        } else {
+          // Dragged right, go to previous slide
+          this.prevSlide()
+        }
+      }
+      
+      // Reset drag state
+      this.isDragging = false
+      this.dragStartX = 0
+      this.dragEndX = 0
+    }
+  }
 }
 </script>
 
@@ -97,11 +230,94 @@ export default {
       order: -1; // Show image first on mobile
     }
 
-    img {
-        width: 100%;
-        height: 100%;
-        aspect-ratio: 5/6;
+    .image-slider {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: fit-content;
+
+      .slider-container {
+        display: flex;
+        transition: transform 0.3s ease;
+        cursor: grab;
+
+        &:active {
+          cursor: grabbing;
+        }
+
+        .slide {
+          min-width: 100%;
+
+          img {
+            width: 100%;
+            aspect-ratio: 5/6;
+            display: block;
+          }
+        }
       }
+
+      .slider-controls {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+        pointer-events: none;
+
+        .slider-btn {
+          pointer-events: all;
+          border: none;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin: 0 20px;
+
+          &:hover:not(:disabled) {
+            transform: scale(1.1);
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+      }
+
+      .slider-dots {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+
+        .dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(0, 0, 0, 0.5);
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &.active {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.2);
+          }
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.7);
+          }
+        }
+      }
+    }
   }
 
   // .statement-text {
