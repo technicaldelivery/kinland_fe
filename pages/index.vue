@@ -91,7 +91,7 @@
     </div>
 
     <!-- Featured Logos -->
-    <FeaturedLogos />
+    <FeaturedLogos :featuredLogos="holdingPage.featuredIn" />
 
     <!-- Enquiry Section -->
     <div class="enquiry-section">

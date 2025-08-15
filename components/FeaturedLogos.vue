@@ -4,25 +4,17 @@
       <h2 class="featured-logos__title">{{ title }}</h2>
       <div class="featured-logos__grid">
         <div 
+          v-if="logo"
           v-for="(logo, index) in logos"
-          :key="logo._id || index"
+          :key="index"
           class="featured-logos__item"
         >
-          <SanityImage
-            v-if="logo.image && logo.image.asset"
-            :image="logo.image"
-            :alternativeText="logo.name || `Logo ${index + 1}`"
-            class="featured-logos__image"
-          />
           <img
-            v-else-if="logo.image"
-            :src="logo.image"
-            :alt="logo.name || `Logo ${index + 1}`"
+            v-if="logo.asset"
+            :src="getImageUrl(logo.asset)"
+            :alt="logo.alternativeText"
             class="featured-logos__image"
           />
-          <div v-else class="featured-logos__placeholder">
-            {{ logo.name || `Logo ${index + 1}` }}
-          </div>
         </div>
       </div>
     </div>
@@ -33,62 +25,25 @@
 export default {
   name: 'FeaturedLogos',
   props: {
-    title: {
-      type: String,
-      default: 'As featured in'
+    featuredLogos: {}
+  },
+  computed: {
+    title() {
+      return this.featuredLogos?.title || ''
     },
-    logos: {
-      type: Array,
-      default: () => [
-        {
-          name: 'Architectural Digest',
-          image: require('~/assets/featured-logos/architectural-digest.svg')
-        },
-        {
-          name: 'Country & Town House',
-          image: require('~/assets/featured-logos/country-town-house.svg')
-        },
-        {
-          name: 'Financial Times',
-          image: require('~/assets/featured-logos/financial-times.svg')
-        },
-        {
-          name: 'Home Journal',
-          image: require('~/assets/featured-logos/home-journal.png')
-        },
-        {
-          name: 'House Beautiful',
-          image: require('~/assets/featured-logos/house-beautiful.svg')
-        },
-        {
-          name: 'Mason Global',
-          image: require('~/assets/featured-logos/mason-global.png')
-        },
-        {
-          name: 'PrimeResi',
-          image: require('~/assets/featured-logos/prime-resi.svg')
-        },
-        {
-          name: 'Sheerluxe',
-          image: require('~/assets/featured-logos/sheerluxe.svg')
-        },
-        {
-          name: 'The Spaces',
-          image: require('~/assets/featured-logos/the-spaces.svg')
-        },
-        {
-          name: 'The Standard',
-          image: require('~/assets/featured-logos/the-standard.png')
-        },
-        {
-          name: 'The Times',
-          image: require('~/assets/featured-logos/the-times.webp')
-        },
-        {
-          name: 'Wallpaper',
-          image: require('~/assets/featured-logos/wallpaper.svg')
-        },
-      ]
+    logos() {
+      return this.featuredLogos?.brands || []
+    }
+  },
+  methods: {
+    getImageUrl(asset) {
+      if (!asset) return '';
+      const { createSanityClient } = require("~/sanity.js");
+      const imageUrlBuilder = require("@sanity/image-url");
+      const sanityClient = createSanityClient(this.$config);
+      const builder = imageUrlBuilder(sanityClient);
+      const url = builder.image(asset).width(800).format('webp').url();
+      return url;
     }
   }
 }
@@ -139,12 +94,13 @@ export default {
     justify-content: center;
     min-height: 70px;
     transition: opacity 0.3s ease;
+    width: 100%;
   }
   
   &__image {
     max-width: 100%;
     width: auto;
-    height: 32px;
+    max-height: 32px;
     object-fit: contain;
     filter: opacity(45%);
     transition: filter 0.3s ease;
