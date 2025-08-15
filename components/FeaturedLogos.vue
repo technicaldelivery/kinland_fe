@@ -97,7 +97,7 @@ export default {
 <style lang="scss" scoped>
 .featured-logos {
   width: 100%;
-  padding: 0 var(--fm) calc(4.5 * var(--fm));
+  padding: 0 calc(4.5 * var(--fm)) calc(4.5 * var(--fm));
   margin-bottom: calc(4 * var(--fm));
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   
@@ -108,33 +108,28 @@ export default {
   
   &__title {
     font-family: 'ABC Marist', serif;
-    font-size: 1.5rem;
-    line-height: 1.3;
+    margin-bottom: calc(3 * var(--fm));
     font-weight: normal;
     text-align: center;
-    margin-bottom: var(--fm);
-    
-    @media (max-width: 768px) {
-      font-size: 1.25rem;
-      margin-bottom: var(--fm);
-    }
+    text-transform: uppercase;
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+    transition: opacity 0.3s ease;
   }
   
   &__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: calc(2 * var(--fm));
+    gap: var(--fm) calc(4 * var(--fm));
     align-items: center;
     justify-items: center;
     
     @media (max-width: 1024px) {
       grid-template-columns: repeat(3, 1fr);
-      gap: var(--fm);
     }
     
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
-      gap: calc(1.5 * var(--fm));
     }
   }
   
@@ -142,8 +137,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 80px;
-    padding: 1rem;
+    min-height: 70px;
     transition: opacity 0.3s ease;
   }
   
