@@ -4,52 +4,53 @@
     :style="{ '--background-color': colorScheme }"
   >
     <div class="statements">
-      <div class="statements-content">
-        <div class="statements-text">
+      <div 
+        v-for="(statement, statementIndex) in statements"
+        :key="statement._id"
+        class="statements-content"
+      >
+        <div 
+          class="statements-text"
+          :class="{ 'order-last': statement.layout === 'textRightImageLeft' }"
+        >
           <div
-            v-if="statements && statements.length > 0"
-            :key="statements[0]._id"
             class="statement"
             :class="{opposite}"
           >
             <div 
-              v-if="statements[0].title" 
+              v-if="statement.title" 
               class="statement-title small-caps"
             >
-              <h4>{{ statements[0].title }}</h4>
+              <h4>{{ statement.title }}</h4>
             </div>
             <PortableText
-              v-if="statements[0].body"
-              :blocks="statements[0].body"
+              v-if="statement.body"
+              :blocks="statement.body"
               :className="`statement-text`"
               :renderContainerOnSingleChild="true"
             />
           </div>
         </div>
         
-        <div class="statements-image">
-          <!-- <SanityImage
-              v-if="featuredImage"
-              :image="featuredImage"
-              :alternativeText="featuredImage.alternativeText"
-              :forceRatio="'100%'"
-              :objectFit="'cover'"
-          /> -->
-
-          <div v-if="featuredImages && featuredImages.length > 0" class="image-slider">
+        <div 
+          class="statements-image"
+          :class="{ 'order-first': statement.layout === 'textRightImageLeft' }"
+        >
+          <div v-if="statement.images && statement.images.length > 0" class="image-slider">
             <div 
               class="slider-container" 
-              :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
-              @touchstart="handleTouchStart"
-              @touchmove="handleTouchMove"
-              @touchend="handleTouchEnd"
-              @mousedown="handleMouseDown"
-              @mousemove="handleMouseMove"
-              @mouseup="handleMouseUp"
-              @mouseleave="handleMouseUp"
+              :class="{ 'single-image': statement.images.length === 1 }"
+              :style="{ transform: `translateX(-${getSlideIndex(statementIndex) * 100}%)` }"
+              @touchstart="statement.images.length > 1 ? (e) => handleTouchStart(e, statementIndex) : null"
+              @touchmove="statement.images.length > 1 ? (e) => handleTouchMove(e, statementIndex) : null"
+              @touchend="statement.images.length > 1 ? () => handleTouchEnd(statementIndex) : null"
+              @mousedown="statement.images.length > 1 ? (e) => handleMouseDown(e, statementIndex) : null"
+              @mousemove="statement.images.length > 1 ? (e) => handleMouseMove(e, statementIndex) : null"
+              @mouseup="statement.images.length > 1 ? () => handleMouseUp(statementIndex) : null"
+              @mouseleave="statement.images.length > 1 ? () => handleMouseUp(statementIndex) : null"
             >
               <div 
-                v-for="(image, index) in featuredImages" 
+                v-for="(image, index) in statement.images" 
                 :key="index"
                 class="slide"
               >
@@ -61,29 +62,29 @@
                 />
               </div>
             </div>
-            <div v-if="featuredImages.length > 1" class="slider-controls">
+            <div v-if="statement.images.length > 1" class="slider-controls">
               <button 
-                @click="prevSlide" 
+                @click="prevSlide(statementIndex)" 
                 class="slider-btn prev-btn"
-                :disabled="currentSlide === 0"
+                :disabled="getSlideIndex(statementIndex) === 0"
               >
                 <svg fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" xmlns:x="&amp;ns_extend;" xmlns:i="&amp;ns_ai;" xmlns:graph="&amp;ns_graphs;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" viewBox="0 0 42 42" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fill-rule="evenodd" points="31,38.32 13.391,21 31,3.68 28.279,1 8,21.01 28.279,41 "></polygon> </g></svg>
               </button>
               <button 
-                @click="nextSlide" 
+                @click="nextSlide(statementIndex)" 
                 class="slider-btn next-btn"
-                :disabled="currentSlide === featuredImages.length - 1"
+                :disabled="getSlideIndex(statementIndex) === statement.images.length - 1"
               >
                 <svg fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" xmlns:x="&amp;ns_extend;" xmlns:i="&amp;ns_ai;" xmlns:graph="&amp;ns_graphs;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" viewBox="0 0 42 42" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fill-rule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "></polygon></g></svg>
               </button>
             </div>
-            <div v-if="featuredImages.length > 1" class="slider-dots">
+            <div v-if="statement.images.length > 1" class="slider-dots">
               <button
-                v-for="(image, index) in featuredImages"
+                v-for="(image, index) in statement.images"
                 :key="index"
-                @click="goToSlide(index)"
+                @click="goToSlide(statementIndex, index)"
                 class="dot"
-                :class="{ active: currentSlide === index }"
+                :class="{ active: getSlideIndex(statementIndex) === index }"
               ></button>
             </div>
           </div>
@@ -98,88 +99,96 @@ export default {
   props: [
     'statements',
     'colorScheme',
-    'opposite',
-    'featuredImage',
-    'featuredImages',
+    'opposite'
   ],
   data() {
     return {
-      currentSlide: 0,
+      currentSlides: {},
       touchStartX: 0,
       touchEndX: 0,
       minSwipeDistance: 20,
       isDragging: false,
       dragStartX: 0,
-      dragEndX: 0
+      dragEndX: 0,
+      activeSlider: null
     }
   },
   methods: {
-    nextSlide() {
-      if (this.currentSlide < this.featuredImages.length - 1) {
-        this.currentSlide++
+    getSlideIndex(statementIndex) {
+      return this.currentSlides[statementIndex] || 0
+    },
+    setSlideIndex(statementIndex, index) {
+      this.$set(this.currentSlides, statementIndex, index)
+    },
+    nextSlide(statementIndex) {
+      const currentIndex = this.getSlideIndex(statementIndex)
+      const maxIndex = this.statements[statementIndex].images.length - 1
+      if (currentIndex < maxIndex) {
+        this.setSlideIndex(statementIndex, currentIndex + 1)
       }
     },
-    prevSlide() {
-      if (this.currentSlide > 0) {
-        this.currentSlide--
+    prevSlide(statementIndex) {
+      const currentIndex = this.getSlideIndex(statementIndex)
+      if (currentIndex > 0) {
+        this.setSlideIndex(statementIndex, currentIndex - 1)
       }
     },
-    goToSlide(index) {
-      this.currentSlide = index
+    goToSlide(statementIndex, index) {
+      this.setSlideIndex(statementIndex, index)
     },
-    handleTouchStart(event) {
+    handleTouchStart(event, statementIndex) {
       this.touchStartX = event.touches[0].clientX
+      this.activeSlider = statementIndex
       event.preventDefault()
     },
-    handleTouchMove(event) {
+    handleTouchMove(event, statementIndex) {
+      if (this.activeSlider !== statementIndex) return
       this.touchEndX = event.touches[0].clientX
       event.preventDefault()
     },
-    handleTouchEnd() {
+    handleTouchEnd(statementIndex) {
+      if (this.activeSlider !== statementIndex) return
       const swipeDistance = this.touchStartX - this.touchEndX
       
       if (Math.abs(swipeDistance) > this.minSwipeDistance) {
         if (swipeDistance > 0) {
-          // Swiped left, go to next slide
-          this.nextSlide()
+          this.nextSlide(statementIndex)
         } else {
-          // Swiped right, go to previous slide
-          this.prevSlide()
+          this.prevSlide(statementIndex)
         }
       }
       
-      // Reset values
       this.touchStartX = 0
       this.touchEndX = 0
+      this.activeSlider = null
     },
-    handleMouseDown(event) {
+    handleMouseDown(event, statementIndex) {
       this.isDragging = true
       this.dragStartX = event.clientX
+      this.activeSlider = statementIndex
       event.preventDefault()
     },
-    handleMouseMove(event) {
-      if (!this.isDragging) return
+    handleMouseMove(event, statementIndex) {
+      if (!this.isDragging || this.activeSlider !== statementIndex) return
       this.dragEndX = event.clientX
     },
-    handleMouseUp() {
-      if (!this.isDragging) return
+    handleMouseUp(statementIndex) {
+      if (!this.isDragging || this.activeSlider !== statementIndex) return
       
       const dragDistance = this.dragStartX - this.dragEndX
       
       if (Math.abs(dragDistance) > this.minSwipeDistance) {
         if (dragDistance > 0) {
-          // Dragged left, go to next slide
-          this.nextSlide()
+          this.nextSlide(statementIndex)
         } else {
-          // Dragged right, go to previous slide
-          this.prevSlide()
+          this.prevSlide(statementIndex)
         }
       }
       
-      // Reset drag state
       this.isDragging = false
       this.dragStartX = 0
       this.dragEndX = 0
+      this.activeSlider = null
     }
   }
 }
@@ -210,13 +219,21 @@ export default {
     padding-top: calc(2 * var(--fm));
     gap: calc(4 * var(--fm));
     align-items: start;
-    min-height: 100vh;
+    // min-height: 100vh;
 
     @include phone-and-tablet {
       grid-template-columns: 1fr;
       padding-top: calc(2 * var(--fm));
       gap: calc(2 * var(--fm));
       min-height: auto;
+    }
+
+    .order-first {
+      order: -1;
+    }
+
+    .order-last {
+      order: 1;
     }
   }
   
@@ -243,6 +260,14 @@ export default {
 
         &:active {
           cursor: grabbing;
+        }
+
+        &.single-image {
+          cursor: default;
+
+          &:active {
+            cursor: default;
+          }
         }
 
         .slide {
