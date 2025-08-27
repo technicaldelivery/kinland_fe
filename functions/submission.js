@@ -34,7 +34,7 @@ exports.handler = async (event) => {
       const isProd = process.env.SANITY_DATASET === 'production';
 
       const emailData = {
-        from: 'noreply@resend.a2dev.space',
+        from: 'noreply@resend.asqrd.dev',
         replyTo: 'info@thisiskinland.com',
         to: isProd ? [
           'katia@thisiskinland.com',
