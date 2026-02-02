@@ -97,17 +97,38 @@ export default {
   },
   computed: {
     projects() {
-      return this.$store.state.sanity.projects;
+      return this.$store.state.sanity.projects || [];
     },
     filteredProjects() {
       if (this.selectedStatus === 'all') {
         // Order by status: completed, in-progress, in-planning
         return [...this.projects].sort((a, b) => {
           const order = { completed: 1, 'in-progress': 2, 'in-planning': 3 };
-          return order[a.status.slug] - order[b.status.slug];
+          const aOrder = this.getStatusOrder(a.status, order);
+          const bOrder = this.getStatusOrder(b.status, order);
+          return aOrder - bOrder;
         });
       }
-      return this.projects.filter(project => project.status && project.status.slug === this.selectedStatus);
+      return this.projects.filter(project => this.matchesStatus(project.status, this.selectedStatus));
+    }
+  },
+  methods: {
+    // Convert title to slug format for fallback matching
+    titleToSlug(title) {
+      return title ? title.toLowerCase().replace(/\s+/g, '-') : null;
+    },
+    // Check if a project's status matches the selected filter
+    matchesStatus(status, selectedStatus) {
+      if (!status) return false;
+      // First try matching by slug, then fall back to title
+      const slug = status.slug || this.titleToSlug(status.title);
+      return slug === selectedStatus;
+    },
+    // Get sort order for a status
+    getStatusOrder(status, order) {
+      if (!status) return 4;
+      const slug = status.slug || this.titleToSlug(status.title);
+      return slug ? (order[slug] || 4) : 4;
     }
   },
 }
