@@ -28,15 +28,6 @@ smartquotes.replacements.push([/(m2)/g, 'm²']);
 import _ from 'lodash';
 
 export default {
-  async fetch() {
-    const sanityClient = createSanityClient(this.$config);
-    await Promise.all([
-      this.$store.dispatch('sanity/NAVIGATION_CALL', sanityClient),
-      this.$store.dispatch('sanity/PAGENOTFOUND_CALL', sanityClient),
-      this.$store.dispatch('sanity/SEO_CALL', sanityClient),
-      this.$store.dispatch('sanity/SETTINGS_CALL', sanityClient),
-    ]);
-  },
   methods: {
     ...mapMutations('styling', ['UPDATE_TOUCHDEVICE']),
     isTouchDevice() {
@@ -45,10 +36,16 @@ export default {
         (navigator.msMaxTouchPoints > 0));
     },
   },
-  mounted() {
+  async mounted() {
     this.UPDATE_TOUCHDEVICE(this.isTouchDevice());
-    // this.$gtag.set({ 'enabled': true, });
     smartquotes().listen();
+    const sanityClient = createSanityClient(this.$config);
+    await Promise.all([
+      this.$store.dispatch('sanity/NAVIGATION_CALL', sanityClient),
+      this.$store.dispatch('sanity/PAGENOTFOUND_CALL', sanityClient),
+      this.$store.dispatch('sanity/SEO_CALL', sanityClient),
+      this.$store.dispatch('sanity/SETTINGS_CALL', sanityClient),
+    ]);
   },
 }
 </script>
