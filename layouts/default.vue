@@ -11,6 +11,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import { createSanityClient } from '~/sanity.js';
 const smartquotes = require('smartquotes');
 smartquotes.replacements.push([/([0-9])-([0-9])/g, '$1–$2']); // hyphen to en-dash between numbers
 smartquotes.replacements.push([/(\s)-(\s)/g, '\u2009–\u2009']); // hyphen to en-dash between spaces
@@ -27,6 +28,15 @@ smartquotes.replacements.push([/(m2)/g, 'm²']);
 import _ from 'lodash';
 
 export default {
+  async fetch() {
+    const sanityClient = createSanityClient(this.$config);
+    await Promise.all([
+      this.$store.dispatch('sanity/NAVIGATION_CALL', sanityClient),
+      this.$store.dispatch('sanity/PAGENOTFOUND_CALL', sanityClient),
+      this.$store.dispatch('sanity/SEO_CALL', sanityClient),
+      this.$store.dispatch('sanity/SETTINGS_CALL', sanityClient),
+    ]);
+  },
   methods: {
     ...mapMutations('styling', ['UPDATE_TOUCHDEVICE']),
     isTouchDevice() {

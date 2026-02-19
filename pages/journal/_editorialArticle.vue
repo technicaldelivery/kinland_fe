@@ -24,19 +24,11 @@ import { editorialArticlePageRequest } from "~/sanityRequests.js";
 import { makeMeta } from "~/utils/makeMeta.js";
 
 export default {
-  async asyncData({ params, payload, $config }) {
+  async asyncData({ params, $config }) {
     const sanityClient = createSanityClient($config);
-    if (payload) {
-      console.log('ARTICLE_PAGE (PAYLOAD)');
-      console.log(payload.item);
-      return { item: payload.item }
-    } else {
-      return await sanityClient.fetch(editorialArticlePageRequest, params).then(data => {
-        console.log('ARTICLE_PAGE (REQUESTED)');
-        console.log(data);
-        return { item: data };
-      });
-    }
+    return await sanityClient.fetch(editorialArticlePageRequest, params).then(data => {
+      return { item: data };
+    });
   },
   mounted() {
     if (!this.item) {
