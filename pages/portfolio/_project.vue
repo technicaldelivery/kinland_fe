@@ -181,24 +181,15 @@ export default {
     EnquiryTray,
     Footer
   },
-  async asyncData({ params, payload, store, $config }) {
+  async asyncData({ params, store, $config }) {
     const sanityClient = createSanityClient($config);
-    
+
     // Ensure projects are loaded in the store
     if (!store.state.sanity.projects) await store.dispatch('sanity/PROJECTS_CALL', sanityClient);
 
-    // Get the current project data
-    if (payload) {
-      console.log('PROJECT_PAGE (PAYLOAD)');
-      console.log(payload.item);
-      return { item: payload.item }
-    } else {
-      return await sanityClient.fetch(projectPageRequest, params).then(data => {
-        console.log('PROJECT_PAGE (REQUESTED)');
-        console.log(data);
-        return { item: data };
-      });
-    }
+    return await sanityClient.fetch(projectPageRequest, params).then(data => {
+      return { item: data };
+    });
   },
   mounted() {
     if (!this.item) {

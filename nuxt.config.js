@@ -1,56 +1,5 @@
 import webpack from 'webpack'
-import { createSanityClient } from "./sanity.js";
-import { 
-  editorialArticlePagesRequest,
-  projectPagesRequest,
-  navigationRequest,
-  pageNotFoundRequest,
-  seoRequest,
-  settingsRequest,
-} from "./sanityRequests.js";
 import { makeMeta } from "./utils/makeMeta.js";
-
-const dynamicRoutes = async() => {
-  // return []
-  const sanityClient = createSanityClient({
-    sanityProjectId: process.env.SANITY_PROJECT_ID,
-    sanityDataset: process.env.SANITY_DATASET
-  });
-  const { navigation } = await sanityClient.fetch(navigationRequest);
-  const pageNotFound = await sanityClient.fetch(pageNotFoundRequest);
-  const seoMeta = await sanityClient.fetch(seoRequest);
-  const siteSettings = await sanityClient.fetch(settingsRequest);
-  const payload = {
-    navigation,
-    pageNotFound,
-    seoMeta,
-    siteSettings,
-  };
-  const resForEditorialArticles = await sanityClient.fetch(editorialArticlePagesRequest);
-  const routesForEditorialArticles = resForEditorialArticles.editorialArticles.map(editorialArticle => {
-    return {
-      route: `/journal/${ editorialArticle.slug }`,
-      payload: {
-        item: editorialArticle,
-        ...payload
-      }
-    }
-  });
-  const resForPortfolio = await sanityClient.fetch(projectPagesRequest);
-  const routesForPortfolio = resForPortfolio.projects.map(project => {
-    return {
-      route: `/portfolio/${ project.slug }`,
-      payload: {
-        item: project,
-        ...payload
-      }
-    }
-  });
-  return [
-    ...routesForEditorialArticles,
-    ...routesForPortfolio,
-  ];
-}
 
 export default async () => {
   return {
@@ -236,7 +185,6 @@ export default async () => {
     },
     generate: {
       fallback: true,
-      routes: dynamicRoutes
     },
     publicRuntimeConfig: {
       sanityProjectId: process.env.SANITY_PROJECT_ID,
