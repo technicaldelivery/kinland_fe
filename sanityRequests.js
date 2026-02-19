@@ -68,6 +68,7 @@ const editorialArticles = `{
 const projects = `{
   ...,
   "slug": slug.current,
+  "orderRank": orderRank,
   status->{
     title,
     "slug": slug.current

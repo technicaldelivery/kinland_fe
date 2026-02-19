@@ -97,17 +97,42 @@ export default {
   },
   computed: {
     projects() {
-      return this.$store.state.sanity.projects;
+      return this.$store.state.sanity.projects || [];
     },
     filteredProjects() {
+      const statusOrder = { completed: 1, 'in-progress': 2, 'in-planning': 3 };
+      const sort = (list) => [...list].sort((a, b) => {
+        const aHasOrder = a.orderRank != null;
+        const bHasOrder = b.orderRank != null;
+        if (aHasOrder && bHasOrder) return a.orderRank - b.orderRank;
+        if (aHasOrder) return -1;
+        if (bHasOrder) return 1;
+        return this.getStatusOrder(a.status, statusOrder) - this.getStatusOrder(b.status, statusOrder);
+      });
+
       if (this.selectedStatus === 'all') {
-        // Order by status: completed, in-progress, in-planning
-        return [...this.projects].sort((a, b) => {
-          const order = { completed: 1, 'in-progress': 2, 'in-planning': 3 };
-          return order[a.status.slug] - order[b.status.slug];
-        });
+        return sort(this.projects);
       }
-      return this.projects.filter(project => project.status && project.status.slug === this.selectedStatus);
+      return sort(this.projects.filter(project => this.matchesStatus(project.status, this.selectedStatus)));
+    }
+  },
+  methods: {
+    // Convert title to slug format for fallback matching
+    titleToSlug(title) {
+      return title ? title.toLowerCase().replace(/\s+/g, '-') : null;
+    },
+    // Check if a project's status matches the selected filter
+    matchesStatus(status, selectedStatus) {
+      if (!status) return false;
+      // First try matching by slug, then fall back to title
+      const slug = status.slug || this.titleToSlug(status.title);
+      return slug === selectedStatus;
+    },
+    // Get sort order for a status
+    getStatusOrder(status, order) {
+      if (!status) return 4;
+      const slug = status.slug || this.titleToSlug(status.title);
+      return slug ? (order[slug] || 4) : 4;
     }
   },
 }
