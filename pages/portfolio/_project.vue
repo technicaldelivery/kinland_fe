@@ -66,7 +66,7 @@
             </div>
             
             <!-- Single landscape image -->
-            <div 
+            <div
               v-if="image.type === 'landscape'"
               :key="image.image._key"
               class="project__grid-item project__grid-item--landscape"
@@ -76,6 +76,20 @@
                 :image="image.image"
                 :alternativeText="item.title"
                 forceRatio="66.666%"
+              />
+            </div>
+
+            <!-- Text block -->
+            <div
+              v-if="image.type === 'text'"
+              :key="image._key"
+              class="project__text-block"
+            >
+              <PortableText
+                v-if="image.text"
+                :blocks="image.text"
+                :className="`project__text-block-body`"
+                :renderContainerOnSingleChild="true"
               />
             </div>
           </template>
@@ -209,7 +223,9 @@ export default {
     slides() {
       if (this.item.slides && this.item.slides.length) {
         return this.item.slides.reduce((acc, slide) => {
-          if (slide.media) {
+          if (slide._type === 'textBlock') {
+            acc.push({ _type: 'textBlock', text: slide.text, _key: slide._key });
+          } else if (slide.media) {
             const images = slide.media.filter(item => item._type === 'image');
             acc.push(...images);
           }
@@ -220,51 +236,34 @@ export default {
     },
     groupedSlides() {
       if (!this.slides || !this.slides.length) return [];
-      
+
       const result = [];
       let portraitPair = [];
-      
-      // Group images appropriately
-      this.slides.forEach(image => {
-        if (this.isPortrait(image)) {
-          // Add to portrait pair
-          portraitPair.push(image);
-          
-          // When we have 2 portrait images, add them as a pair and reset
+
+      const flushPortraitPair = () => {
+        if (portraitPair.length > 0) {
+          result.push({ type: 'portrait-pair', images: [...portraitPair] });
+          portraitPair = [];
+        }
+      };
+
+      this.slides.forEach(item => {
+        if (item._type === 'textBlock') {
+          flushPortraitPair();
+          result.push({ type: 'text', text: item.text, _key: item._key });
+        } else if (this.isPortrait(item)) {
+          portraitPair.push(item);
           if (portraitPair.length === 2) {
-            result.push({
-              type: 'portrait-pair',
-              images: [...portraitPair]
-            });
-            portraitPair = [];
+            flushPortraitPair();
           }
         } else {
-          // If we have a single portrait image waiting and now encounter a landscape,
-          // add the single portrait first as its own pair
-          if (portraitPair.length === 1) {
-            result.push({
-              type: 'portrait-pair',
-              images: [...portraitPair]
-            });
-            portraitPair = [];
-          }
-          
-          // Add landscape image individually
-          result.push({
-            type: 'landscape',
-            image: image
-          });
+          flushPortraitPair();
+          result.push({ type: 'landscape', image: item });
         }
       });
-      
-      // Add any remaining portrait images
-      if (portraitPair.length > 0) {
-        result.push({
-          type: 'portrait-pair',
-          images: [...portraitPair]
-        });
-      }
-      
+
+      flushPortraitPair();
+
       return result;
     },
     nextProject() {
@@ -380,6 +379,14 @@ export default {
     margin-bottom: 3rem;
     font-size: 1.1rem;
     line-height: 1.6;
+
+    ::v-deep p {
+      margin-bottom: 1em;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 
   &__image-grid {
@@ -387,6 +394,19 @@ export default {
     flex-direction: column;
     gap: 2rem;
     margin-bottom: 3rem;
+  }
+
+  &__text-block {
+    font-size: 1.1rem;
+    line-height: 1.6;
+
+    ::v-deep p {
+      margin-bottom: 1em;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
   
   &__grid-item-pair {
