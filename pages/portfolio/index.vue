@@ -100,16 +100,20 @@ export default {
       return this.$store.state.sanity.projects || [];
     },
     filteredProjects() {
+      const statusOrder = { completed: 1, 'in-progress': 2, 'in-planning': 3 };
+      const sort = (list) => [...list].sort((a, b) => {
+        const aHasOrder = a.orderRank != null;
+        const bHasOrder = b.orderRank != null;
+        if (aHasOrder && bHasOrder) return a.orderRank - b.orderRank;
+        if (aHasOrder) return -1;
+        if (bHasOrder) return 1;
+        return this.getStatusOrder(a.status, statusOrder) - this.getStatusOrder(b.status, statusOrder);
+      });
+
       if (this.selectedStatus === 'all') {
-        // Order by status: completed, in-progress, in-planning
-        return [...this.projects].sort((a, b) => {
-          const order = { completed: 1, 'in-progress': 2, 'in-planning': 3 };
-          const aOrder = this.getStatusOrder(a.status, order);
-          const bOrder = this.getStatusOrder(b.status, order);
-          return aOrder - bOrder;
-        });
+        return sort(this.projects);
       }
-      return this.projects.filter(project => this.matchesStatus(project.status, this.selectedStatus));
+      return sort(this.projects.filter(project => this.matchesStatus(project.status, this.selectedStatus)));
     }
   },
   methods: {
